@@ -1,0 +1,22 @@
+app:
+  build: .
+  ports:
+   - "8080:8080"
+  links:
+   - db
+  volumes:
+   - .:/src
+web:
+  image: httpd
+  ports:
+   - "9080:80"
+  volumes:
+   - .:/src
+  links:
+   - app
+db:
+  image: mysql/mysql-server
+  ports:
+   - "3306:3306"
+  volumes:
+   - .:/src
