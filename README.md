@@ -10,7 +10,14 @@ TODO: Describe the installation process
 
 ## Usage
 
-TODO: Write usage instructions
+make env
+make build
+make rebuild
+make clean
+
+make start IMAGE=db
+make stop IMAGE=db
+make cli IMAGE=db
 
 ## Contributing
 
