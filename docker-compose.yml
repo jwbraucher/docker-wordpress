@@ -1,22 +1,27 @@
 app:
+  hostname: app
   build: .
   ports:
-   - "8080:8080"
+   - '8080:8080'
   links:
    - db
   volumes:
    - .:/src
 web:
+  hostname: web
   image: httpd
   ports:
-   - "9080:80"
+   - '9080:80'
   volumes:
    - .:/src
   links:
    - app
 db:
+  hostname: db
   image: mysql/mysql-server
+  environment:
+    MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
   ports:
-   - "3306:3306"
+   - '3306:3306'
   volumes:
    - .:/src
