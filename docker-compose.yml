@@ -20,7 +20,7 @@ db:
   hostname: db
   image: mysql/mysql-server
   environment:
-    MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    MYSQL_RANDOM_ROOT_PASSWORD: "true"
   ports:
    - '3306:3306'
   volumes:
