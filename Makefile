@@ -14,7 +14,6 @@ rebuild:
 
 clean:
 	-docker-compose rm -f
-	-docker rmi -f $(OWNER)/$(PROJECT)
 	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
 	$(foreach container, $(CONTAINERS), docker rm $(container);)
 	$(eval IMAGES := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
@@ -47,7 +46,7 @@ cli:
 	docker exec -it $(CONTAINER) $(SHELL)
 
 bootcli:
-	docker run -it --entrypoint=$(SHELL) $(OWNER)/$(PROJECT)
+	docker run -it --rm --entrypoint=$(SHELL) $(OWNER)/$(PROJECT)
 
 env:
 	docker-machine env $(MACHINE)
