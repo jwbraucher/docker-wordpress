@@ -13,12 +13,12 @@ php::settings:
   error_log: /var/log/drupal/php-error.log
 
 php::extensions:
-  - ldap
-  - gd
-  - imagick
-  - json
-  - mysqlnd
-  - curl
-  - apcu
-  - xhprof
+  ldap: {}
+  gd: {}
+  imagick: {}
+  json: {}
+  mysqlnd: {}
+  curl: {}
+  apcu: {}
+  xhprof: {}
 
