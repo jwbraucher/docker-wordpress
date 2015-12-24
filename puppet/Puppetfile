@@ -1,0 +1,7 @@
+## Runtime dependencies
+
+forge 'https://forgeapi.puppetlabs.com'
+
+# Module for configuring php and installing php modules
+mod 'mayflower/php'
+
