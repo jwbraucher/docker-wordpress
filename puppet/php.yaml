@@ -22,3 +22,7 @@ php::extensions:
   apcu: {}
   xhprof: {}
 
+php::fpm::pools:
+  www:
+    listen: 9000
+

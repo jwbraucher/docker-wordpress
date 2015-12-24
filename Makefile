@@ -1,5 +1,5 @@
 # project settings
-PROJECT=docker-image
+PROJECT=docker-php
 OWNER=jwbraucher
 MACHINE=DEV
 SHELL=/bin/bash
@@ -7,38 +7,50 @@ SHELL=/bin/bash
 default: build
 
 build:
-	@docker build -t $(OWNER)/$(PROJECT) .
+	docker build -t $(OWNER)/$(PROJECT) .
 
 rebuild:
-	@docker build -t $(OWNER)/$(PROJECT) --no-cache . 
+	docker build -t $(OWNER)/$(PROJECT) --no-cache .
 
 clean:
-	@docker rmi $(OWNER)/$(PROJECT)
-
-clean-images:
-	@docker run -ti \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v $(PWD):/src \
-          yelp/docker-custodian dcgc --exclude-image-file /src/.dcgc-exclude \
-          --max-container-age 0minutes --max-image-age 0minutes
+	-docker-compose rm -f
+	-docker rmi -f $(OWNER)/$(PROJECT)
+	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
+	$(foreach container, $(CONTAINERS), docker rm $(container);)
+	$(eval IMAGES := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
+	$(foreach image, $(IMAGES), docker rmi $(image);)
 
 start:
-	@docker start $(OWNER)/$(PROJECT)
+	docker-compose up -d $(PROJECT)
 
 stop:
-	@docker stop $(OWNER)/$(PROJECT)
+	$(eval CONTAINERS := $(shell docker ps -q) )
+	$(foreach container, $(CONTAINERS), docker stop $(container);)
+
+net:
+	@printf "IP: "
+	@docker-machine ip $(MACHINE)
+	$(eval CONTAINERS := $(shell docker ps -q) )
+	@printf "Ports: "
+	$(foreach container, $(CONTAINERS), \
+          @docker inspect \
+            --format '{{ .Config.ExposedPorts }}' $(container) | \
+          sed 's,[^0-9 ],,g' \
+        ;)
+	@echo
 
 status:
-	@docker inspect $(OWNER)/$(PROJECT)
+	docker ps
 
 cli:
-	@docker exec -it $(OWNER)/$(PROJECT) $(SHELL)
+	$(eval CONTAINER := $(shell docker-compose ps -q $(PROJECT) ) )
+	docker exec -it $(CONTAINER) $(SHELL)
 
 bootcli:
-	@docker run -it --entrypoint=$(SHELL) $(OWNER)/$(PROJECT)
+	docker run -it --entrypoint=$(SHELL) $(OWNER)/$(PROJECT)
 
 env:
-	@docker-machine env $(MACHINE)
+	docker-machine env $(MACHINE)
 	@docker-machine env $(MACHINE) | tail -1 | sed 's,^# ,,' | pbcopy
 
 .PHONY: default build clean start stop status cli

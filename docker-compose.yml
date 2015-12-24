@@ -1,0 +1,4 @@
+docker-php:
+  image: jwbraucher/docker-php
+  ports:
+    - "9000:9000"
