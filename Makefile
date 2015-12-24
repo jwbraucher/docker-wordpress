@@ -18,7 +18,7 @@ clean:
 clean-images:
 	@docker run -ti \
           -v /var/run/docker.sock:/var/run/docker.sock \
-          yelp/docker-custodian dcgc --exclude-image yelp/docker-custodian:latest \
+          yelp/docker-custodian dcgc --exclude-image-file .dcgc-exclude \
           --max-container-age 0minutes --max-image-age 0minutes
 
 start:
