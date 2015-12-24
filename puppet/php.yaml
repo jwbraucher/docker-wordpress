@@ -1,6 +1,17 @@
+# Manage PHP with puppet
 classes:
   - php
 
+# FPM pool configuration
+php::fpm::pools:
+  www:
+    listen: 9000
+
+# disable Ubuntu FPM service
+php::fpm::service::enable: no
+php::fpm::service::ensure: stopped
+
+# PHP Configuration
 php::settings:
   max_execution_time: 600
   error_reporting: E_ALL
@@ -10,8 +21,9 @@ php::settings:
   upload_max_filesize: 500M
   max_input_vars: 9999
   log_errors: 1
-  error_log: /var/log/drupal/php-error.log
+  error_log: /var/log/php-error.log
 
+# PHP Extensions
 php::extensions:
   ldap: {}
   gd: {}
@@ -21,8 +33,4 @@ php::extensions:
   curl: {}
   apcu: {}
   xhprof: {}
-
-php::fpm::pools:
-  www:
-    listen: 9000
 
