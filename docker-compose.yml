@@ -1,4 +1,24 @@
-docker-image:
-  image: jwbraucher/docker-image
+foobar:
+  image: jwbraucher/foobar
   ports:
     - "8080:8080"
+  volumes:
+    - /var/www/foobar
+  links:
+    - db
+web:
+  image: jwbraucher/web
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - app
+  volumes_from:
+    - app:ro
+db:
+  image: jwbraucher/db
+  environment:
+    MYSQL_RANDOM_ROOT_PASSWORD: 'true'
+    MYSQL_DATABASE: 'foobar'
+    MYSQL_USER: 'foobar'
+    MYSQL_PASSWORD: 'foobar'

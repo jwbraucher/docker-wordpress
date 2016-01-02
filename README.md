@@ -1,8 +1,9 @@
-# Docker Image
+# Docker Foobar
 
-This is a sample project using Docker. Examples include:
+This is a sample project using Docker. Includes:
+* Makefile for orchestrating docker, docker-compose, and docker-machine
 * Dockerfile for building one new image
-* docker-compose.yml for deploying multiple images
+* docker-compose.yml for container runtime parameters
 
 ## Installation
 
@@ -10,14 +11,14 @@ TODO: Describe the installation process
 
 ## Usage
 
+make machine
 make env
-make build
-make rebuild
 make clean
+make rebuild
 
-make start IMAGE=db
-make stop IMAGE=db
-make cli IMAGE=db
+make start SERVICE=db
+make stop SERVICE=db
+make cli SERVICE=db
 
 ## Contributing
 
