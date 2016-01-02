@@ -21,13 +21,9 @@ rebuild: clean
 	docker build -t $(PROJECT) --no-cache .
 
 .PHONY: clean
-clean: 
+clean:
 	-@for i in ${PROJECTS}; do docker rmi $${i}; done
 	-docker-compose rm -f -v
-	$(MAKE) garbage
-
-.PHONY: garbage
-garbage:
 	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
 	-@for container in ${CONTAINERS}; do docker rm $${container}; done
 	$(eval IMAGES := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
@@ -57,7 +53,7 @@ logs:
 .PHONY: cli
 cli:
 	$(eval CONTAINER := $(shell docker-compose ps -q $(SERVICE) | head -1) )
-	docker exec -it $(CONTAINER) /bin/bash -c 'set -v'
+	docker exec -it $(CONTAINER) /bin/bash -o vi
 
 .PHONY: start-cli
 boot-cli:
