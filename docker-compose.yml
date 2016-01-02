@@ -1,5 +1,5 @@
 foobar:
-  image: jwbraucher/foobar
+  image: foobar
   ports:
     - "8080:8080"
   volumes:
@@ -7,7 +7,7 @@ foobar:
   links:
     - db
 web:
-  image: jwbraucher/web
+  image: web
   ports:
     - "80:80"
     - "443:443"
@@ -16,7 +16,7 @@ web:
   volumes_from:
     - app:ro
 db:
-  image: jwbraucher/db
+  image: db
   environment:
     MYSQL_RANDOM_ROOT_PASSWORD: 'true'
     MYSQL_DATABASE: 'foobar'
