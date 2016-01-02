@@ -14,11 +14,11 @@ $(PROJECTS):
 
 .PHONY: build
 build:
-	docker build -t $(USER)/$(PROJECT) .
+	docker build -t $(PROJECT) .
 
 .PHONY: rebuild
 rebuild: clean
-	docker build -t $(USER)/$(PROJECT) --no-cache .
+	docker build -t $(PROJECT) --no-cache .
 
 .PHONY: clean
 clean:
