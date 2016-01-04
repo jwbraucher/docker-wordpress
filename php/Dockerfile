@@ -12,6 +12,12 @@ RUN /puppet-apply \
   --modulepath=./modules \
   ./site.pp
 
+# Fix comments in xhprof.ini
+RUN sed -i 's/^#/;/' /etc/php5/mods-available/xhprof.ini
+
+# Enable upload progress in apcu
+RUN echo apc.rfc1867 = 1 >> /etc/php5/mods-available/apcu.ini
+
 # Ensure php5-fpm won't run via upstart
 RUN echo 'manual' > /etc/init/php5-fpm.override
 RUN service php5-fpm stop
