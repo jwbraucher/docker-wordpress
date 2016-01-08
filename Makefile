@@ -1,42 +1,57 @@
-# By default, build all Dockerfiles with cache enabled
-# (set target to rebuild to disable the cache)
-TARGET=build
-PROJECTS:=$(shell find * -name Dockerfile -exec dirname {} \; )
-default: $(PROJECTS)
+# Configuration
+export
+SHELL := /bin/bash
 
-.PHONY: $(PROJECTS)
-$(PROJECTS):
-	@for i in $(PROJECTS); do \
-	  cd $${i} && \
-	  $(MAKE) -f ../Makefile $(TARGET) PROJECT=$${i} ; \
-	  cd .. ; \
+# Environment
+IMAGE:=$(shell find * -name Dockerfile -exec dirname {} \;)
+IP := $(shell docker-machine ip $(USER) 2>/dev/null)
+CONTAINERS := $(shell docker ps -q 2>/dev/null)
+
+# Recipes
+default: $(IMAGE)
+
+# Local Project
+include Makefile.local
+
+.PHONY: $(IMAGE)
+$(IMAGE):
+	@for i in $(IMAGE); do \
+	  docker build -t $${i} -f $${i}/Dockerfile . \
+	  || exit $$? ; \
 	  done
 
-.PHONY: build
-build:
-	docker build -t $(PROJECT) .
-
 .PHONY: rebuild
-rebuild: clean
-	docker build -t $(PROJECT) --no-cache .
+rebuild:
+	@for i in $(IMAGE); do \
+	  docker build -t $${i} -f $${i}/Dockerfile --no-cache . \
+	  || exit $$? ; \
+	  done
 
-.PHONY: clean
-clean:
-	-@for i in ${PROJECTS}; do docker rmi $${i}; done
-	-docker-compose rm -f -v
+.PHONY: clean clean-containers clean-images clean-files
+clean: clean-containers clean-images clean-files
+
+clean-containers:
+	@echo "...Cleaning Containers..."
+	command=$@ docker-compose rm -f -v $(IMAGE)
 	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
 	-@for container in ${CONTAINERS}; do docker rm $${container}; done
+
+clean-images:
+	@echo "...Cleaning Images..."
 	$(eval IMAGES := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
 	-@for i in ${IMAGES}; do docker rmi $${i}; done
 
-.PHONY: start
-start:
-	docker-compose up -d $(SERVICE)
+clean-files:
+	@echo "...Cleaning Untracked Files (Git)..."
+	-git clean -xdf
+
+.PHONY: start install
+start install:
+	command=$@ docker-compose up -d $(SERVICE)
 
 .PHONY: stop
 stop:
-	$(eval CONTAINERS := $(shell docker ps -q $(SERVICE)) )
-	@for container in ${CONTAINERS}; do docker stop $${container}; done
+	command=$@ docker-compose stop $(SERVICE)
 
 .PHONY: restart
 restart: stop start
@@ -56,9 +71,8 @@ cli:
 	docker exec -it $(CONTAINER) /bin/bash -o vi
 
 .PHONY: start-cli
-boot-cli:
-	$(eval CONTAINER := $(shell docker images -q $(SERVICE) | head -1) )
-	docker run -it --rm --entrypoint=/bin/bash $(CONTAINER) -o vi
+start-cli:
+	command=$@ docker-compose run --rm --entrypoint /bin/bash $(SERVICE) -o vi
 
 .PHONY: machine
 machine:
@@ -77,8 +91,6 @@ env:
 .PHONY: net
 net:
 	@echo "Network Configuration:"
-	$(eval IP := $(shell docker-machine ip $(USER) ))
-	$(eval CONTAINERS := $(shell docker ps -q) )
 	$(eval PORTS := $(shell for container in ${CONTAINERS}; do \
           docker inspect \
             --format '{{ .Config.ExposedPorts }}' $${container} | \

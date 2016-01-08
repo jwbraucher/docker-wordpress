@@ -1,33 +1,13 @@
-# Docker Foobar
+# Docker PHP
 
-This is a sample project using Docker. Includes:
-* Makefile for orchestrating docker, docker-compose, and docker-machine
-* Dockerfile for building one new image
-* docker-compose.yml for container runtime parameters
+This image provides a PHP5-FPM application container configured using puppet and the mayflower/puppet-php module.
 
-## Installation
+## Usave
+/php5-fpm is the default entrypoint. The daemon listens on port 9000.
 
-TODO: Describe the installation process
-
-## Usage
-
-make machine
-make env
-make clean
-make rebuild
-
-make start SERVICE=db
-make stop SERVICE=db
-make cli SERVICE=db
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+## Development
+See DEVELOPMENT.md
 
 ## License
-
 MIT license
+
