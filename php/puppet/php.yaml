@@ -2,10 +2,22 @@
 classes:
   - php
 
+# FPM global configuration
+php::fpm::config:
+    error_log: /proc/self/fd/2
+
 # FPM pool configuration
 php::fpm::pools:
   www:
     listen: 9000
+    php_admin_value:
+        error_log: /proc/self/fd/2
+    php_admin_flag:
+        log_errors: On
+    php_flag:
+        display_errors: Off
+    php_directives:
+        - 'catch_workers_output = yes'
 
 # disable Ubuntu FPM service
 php::fpm::service::enable: no
@@ -14,14 +26,15 @@ php::fpm::service::ensure: stopped
 # PHP Configuration
 php::settings:
   PHP/max_execution_time: 600
-  PHP/error_reporting: E_ALL
   PHP/memory_limit: 1024M
   PHP/post_max_size: 500M
   PHP/register_globals: Off
   PHP/upload_max_filesize: 500M
   PHP/max_input_vars: 9999
-  PHP/log_errors: 1
-  PHP/error_log: /var/log/php-error.log
+  PHP/error_reporting: E_ALL
+  PHP/log_errors: On
+  PHP/error_log: /proc/self/fd/2
+  PHP/display_errors: Off
 
 # PHP Extensions
 php::extensions:
