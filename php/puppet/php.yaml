@@ -3,8 +3,7 @@ classes:
   - php
 
 # FPM global configuration
-php::fpm::config:
-    error_log: /proc/self/fd/2
+php::fpm::config::error_log: /proc/self/fd/2
 
 # FPM pool configuration
 php::fpm::pools:
@@ -16,8 +15,7 @@ php::fpm::pools:
         log_errors: On
     php_flag:
         display_errors: Off
-    php_directives:
-        - 'catch_workers_output = yes'
+    catch_workers_output: yes
 
 # disable Ubuntu FPM service
 php::fpm::service::enable: no
