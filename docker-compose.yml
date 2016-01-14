@@ -2,3 +2,14 @@ php:
   image: php
   ports:
     - "9000:9000"
+  volumes:
+    - ./volumes/php:/var/www/php:ro
+php-web:
+  image: php-web
+  ports:
+    - '80:80'
+    - '443:443'
+  links:
+    - php
+  volumes:
+    - ./volumes/php:/var/www/php:ro

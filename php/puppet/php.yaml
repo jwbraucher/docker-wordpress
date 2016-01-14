@@ -16,6 +16,8 @@ php::fpm::pools:
     php_flag:
         display_errors: Off
     catch_workers_output: yes
+    php_directives:
+        - 'access.log = /proc/self/fd/2'
 
 # disable Ubuntu FPM service
 php::fpm::service::enable: no
