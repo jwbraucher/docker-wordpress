@@ -46,4 +46,7 @@ php::extensions:
   curl: {}
   apcu: {}
   xhprof: {}
+  mcrypt: {}
+  intl: {}
+  xsl: {}
 
