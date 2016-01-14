@@ -16,14 +16,14 @@ include Makefile.local
 .PHONY: $(IMAGE)
 $(IMAGE):
 	@for i in $(IMAGE); do \
-	  docker build -t $${i} -f $${i}/Dockerfile . \
+	  docker build --force-rm=true -t $${i} -f $${i}/Dockerfile . \
 	  || exit $$? ; \
 	  done
 
 .PHONY: rebuild
 rebuild:
 	@for i in $(IMAGE); do \
-	  docker build -t $${i} -f $${i}/Dockerfile --no-cache . \
+	  docker build --force-rm=true -t $${i} -f $${i}/Dockerfile --no-cache . \
 	  || exit $$? ; \
 	  done
 
@@ -32,7 +32,7 @@ clean: clean-containers clean-images clean-files
 
 clean-containers:
 	@echo "...Cleaning Containers..."
-	command=$@ docker-compose rm -f -v $(IMAGE)
+	-docker-compose rm -f -v $(IMAGE)
 	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
 	-@for container in ${CONTAINERS}; do docker rm $${container}; done
 
