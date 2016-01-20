@@ -8,5 +8,5 @@ RUN apt-get update && apt-get install -y vim less
 
 # Setup apache
 RUN echo "Include conf/php5-fpm.conf" >> /usr/local/apache2/conf/httpd.conf
-COPY ./php-web/php5-fpm.conf /usr/local/apache2/conf/
+COPY ./php5-fpm.conf /usr/local/apache2/conf/
 

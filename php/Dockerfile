@@ -4,7 +4,7 @@ FROM puppet
 MAINTAINER Jeff Braucher <jeff@braucher.net>
 
 # Configure the system with puppet
-COPY ./php/puppet/ /puppet/
+COPY ./puppet/ /puppet/
 WORKDIR /puppet
 RUN librarian-puppet install
 RUN /puppet-apply \
@@ -28,5 +28,5 @@ RUN service php5-fpm stop
 
 # Run php5-fpm on port 9000
 EXPOSE 9000
-COPY php/php5-fpm /php5-fpm
+COPY ./php5-fpm /php5-fpm
 ENTRYPOINT ["/php5-fpm"]

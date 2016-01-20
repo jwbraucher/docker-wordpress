@@ -3,28 +3,32 @@ export
 SHELL := /bin/bash
 
 # Environment
-IMAGE:=$(shell find * -name Dockerfile -exec dirname {} \;)
-IP := $(shell docker-machine ip $(USER) 2>/dev/null)
-CONTAINERS := $(shell docker ps -q 2>/dev/null)
+image := $(shell find * -name Dockerfile -exec dirname {} \;)
+ip := $(shell docker-machine ip $(USER) 2>/dev/null)
+containers := $(shell docker ps -q 2>/dev/null)
 
 # Recipes
-default: $(IMAGE)
+default: $(image)
 
-# Local Project
+# Local Project Makefile
 include Makefile.local
 
-.PHONY: $(IMAGE)
-$(IMAGE):
-	@for i in $(IMAGE); do \
-	  docker build --force-rm=true -t $${i} -f $${i}/Dockerfile . \
+.PHONY: $(image)
+$(image):
+	@for i in $(image); do \
+	  cd $${i} ; \
+	  docker build --force-rm=true -t $${i} . \
 	  || exit $$? ; \
+	  cd .. ; \
 	  done
 
 .PHONY: rebuild
 rebuild:
-	@for i in $(IMAGE); do \
-	  docker build --force-rm=true -t $${i} -f $${i}/Dockerfile --no-cache . \
+	@for i in $(image); do \
+	  cd $${i} ; \
+	  docker build --force-rm=true -t $${i} --no-cache . \
 	  || exit $$? ; \
+	  cd .. ; \
 	  done
 
 .PHONY: clean clean-containers clean-images clean-files
@@ -32,14 +36,14 @@ clean: clean-containers clean-images clean-files
 
 clean-containers:
 	@echo "...Cleaning Containers..."
-	-docker-compose rm -f -v $(IMAGE)
-	$(eval CONTAINERS := $(shell docker ps -a -q --filter='status=exited') )
-	-@for container in ${CONTAINERS}; do docker rm $${container}; done
+	-command=$@ docker-compose rm -f -v $(image)
+	$(eval containers := $(shell docker ps -a -q --filter='status=exited') )
+	-@for container in ${containers}; do docker rm $${container}; done
 
 clean-images:
 	@echo "...Cleaning Images..."
-	$(eval IMAGES := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
-	-@for i in ${IMAGES}; do docker rmi $${i}; done
+	$(eval images := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
+	-@for i in ${images}; do docker rmi $${i}; done
 
 clean-files:
 	@echo "...Cleaning Untracked Files (Git)..."
@@ -47,11 +51,11 @@ clean-files:
 
 .PHONY: start install
 start install:
-	command=$@ docker-compose up -d $(SERVICE)
+	command=$@ docker-compose up -d $(service)
 
 .PHONY: stop
 stop:
-	command=$@ docker-compose stop $(SERVICE)
+	command=$@ docker-compose stop $(service)
 
 .PHONY: restart
 restart: stop start
@@ -62,17 +66,17 @@ status:
 
 .PHONY: logs
 logs:
-	$(eval CONTAINER := $(shell docker-compose ps -q $(SERVICE) | head -1) )
-	docker logs -f $(CONTAINER)
+	$(eval container := $(shell command=$@ app=${app} ip=${ip} docker-compose ps -q $(service) | head -1) )
+	docker logs -f $(container)
 
 .PHONY: cli
 cli:
-	$(eval CONTAINER := $(shell docker-compose ps -q $(SERVICE) | head -1) )
-	docker exec -it $(CONTAINER) /bin/bash -o vi
+	$(eval container := $(shell command=$@ app=${app} ip=${ip} docker-compose ps -q $(service) | head -1) )
+	docker exec -it $(container) /bin/bash -o vi
 
 .PHONY: start-cli
 start-cli:
-	command=$@ docker-compose run --rm --entrypoint /bin/bash $(SERVICE) -o vi
+	command=$@ docker-compose run --rm --entrypoint /bin/bash $(service) -o vi
 
 .PHONY: machine
 machine:
@@ -91,9 +95,9 @@ env:
 .PHONY: net
 net:
 	@echo "Network Configuration:"
-	$(eval PORTS := $(shell for container in ${CONTAINERS}; do \
+	$(eval PORTS := $(shell for container in ${containers}; do \
           docker inspect \
             --format '{{ .Config.ExposedPorts }}' $${container} | \
 	    sed 's,[^0-9 ],,g' ; \
 	  done ) )
-	@for port in ${PORTS} ; do printf "${IP}:$${port}\n"; done
+	@for port in ${PORTS} ; do printf "${ip}:$${port}\n"; done
