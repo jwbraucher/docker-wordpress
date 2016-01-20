@@ -1,15 +1,38 @@
 php:
-  image: php
+  image: ${app}
   ports:
     - "9000:9000"
+  links:
+    - ${app}-db
   volumes:
-    - ./volumes/php:/var/www/php:ro
+    - ./volumes/${app}:/var/www/php:ro
+  environment:
+    APP_VERSION: 'latest'
+    APP_LOCALE: 'en_us'
+    APP_TITLE: 'Docker'
+    APP_ADMIN_USER: 'admin'
+    APP_ADMIN_EMAIL: 'admin@example.com'
+    APP_ADMIN_PASSWORD: 'admin'
+    APP_URL: "http://${ip}"
+    APP_DB_HOST: "${app}-db"
+    APP_DB_NAME: "${app}"
+    APP_DB_USER: "${app}"
+    APP_DB_PASSWORD: "password4${app}"
+php-db:
+  image: mysql:5.6
+  volumes:
+    - /var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: "root_66_${app}"
+    MYSQL_DATABASE: "${app}"
+    MYSQL_USER: "${app}"
+    MYSQL_PASSWORD: "password4${app}"
 php-web:
-  image: php-web
+  image: ${app}-web
   ports:
     - '80:80'
     - '443:443'
   links:
-    - php
+    - ${app}
   volumes:
-    - ./volumes/php:/var/www/php:ro
+    - ./volumes/${app}:/var/www/php:ro

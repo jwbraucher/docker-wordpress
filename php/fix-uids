@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+path=$1
+owner=$2
+
+uid=$(stat -c "%u" $path)
+gid=$(stat -c "%g" $path)
+
+if [ "$uid" != "0" ]; then
+  usermod -o -u $uid $owner || true
+  groupmod -o -g $gid $owner || true
+fi

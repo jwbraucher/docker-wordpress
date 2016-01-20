@@ -26,7 +26,11 @@ RUN echo apc.rfc1867 = 1 >> /etc/php5/mods-available/apcu.ini
 RUN echo 'manual' > /etc/init/php5-fpm.override
 RUN service php5-fpm stop
 
+# Script to fix uids on host volumes
+COPY ./fix-uids /fix-uids
+
 # Run php5-fpm on port 9000
 EXPOSE 9000
+WORKDIR /var/www/php
 COPY ./php5-fpm /php5-fpm
 ENTRYPOINT ["/php5-fpm"]
