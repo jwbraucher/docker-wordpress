@@ -5,11 +5,11 @@ php:
   links:
     - ${app}-db
   volumes:
-    - ./volumes/${app}:/var/www/php:ro
+    - ./volumes/php:/var/www/php:ro
   environment:
     APP_VERSION: 'latest'
     APP_LOCALE: 'en_us'
-    APP_TITLE: 'Docker'
+    APP_TITLE: "${app}"
     APP_ADMIN_USER: 'admin'
     APP_ADMIN_EMAIL: 'admin@example.com'
     APP_ADMIN_PASSWORD: 'admin'
@@ -35,4 +35,4 @@ php-web:
   links:
     - ${app}
   volumes:
-    - ./volumes/${app}:/var/www/php:ro
+    - ./volumes/php:/var/www/php:ro
