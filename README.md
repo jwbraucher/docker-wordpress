@@ -8,7 +8,7 @@ Puppet and related tools are provided from the [braucher/puppet base container](
 This Github repository provides a software template for a LAMP stack built 
 with the following Docker containers:
 
-* braucher/php (this one)
+* [braucher/php](https://hub.docker.com/r/braucher/php/) (this one)
 * [mysql:5.6](https://hub.docker.com/r/_/mysql/)
 * [httpd:2.4](https://hub.docker.com/r/_/httpd/)
 
@@ -27,13 +27,15 @@ Modify Makefile.local to change the app name and build your own containers.
 If you do change the app name, be sure to rename the containers in 
 docker-compose.yaml as well.
 
-#### Run this to start php5-fpm after making your own changes:
+Run the following to start php5-fpm in your container:
+
 ```
 /php5-fpm [options]
 ```
 
-#### Run this when a container if you need to correct volume permissions for the runtime user:
-(needed for host volumes such as Mac OS)
+Run the following to correct the permissions on a host volume for a runtime user 
+in your container (needed for host volumes such as Mac OS):
+
 ```
 /fix-uids [mountpoint] [runtime user]
 ```
