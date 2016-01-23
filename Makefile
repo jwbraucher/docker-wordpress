@@ -17,7 +17,7 @@ include Makefile.local
 $(image):
 	@for i in $(image); do \
 	  cd $${i} ; \
-	  docker build --force-rm=true -t $${i} . \
+	  docker build --build-arg=app=$(app) --force-rm=true -t $${i} . \
 	  || exit $$? ; \
 	  cd .. ; \
 	  done
@@ -26,7 +26,7 @@ $(image):
 rebuild:
 	@for i in $(image); do \
 	  cd $${i} ; \
-	  docker build --force-rm=true -t $${i} --no-cache . \
+	  docker build --build-arg=app=$(app) --force-rm=true -t $${i} --no-cache . \
 	  || exit $$? ; \
 	  cd .. ; \
 	  done

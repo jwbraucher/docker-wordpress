@@ -2,6 +2,7 @@
 
 FROM braucher/puppet
 MAINTAINER Jeff Braucher <jeff@braucher.net>
+app=php
 
 # Configure the system with puppet
 COPY ./puppet/ /puppet/
