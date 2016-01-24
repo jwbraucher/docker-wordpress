@@ -4,14 +4,20 @@
 # This script manages the application by calling child
 # scripts provided by downstream projects.
 
-# you must provide the following files:
-# /app.env
-# /app.install
-# /app.start
-# /app.configure
+# downstream projects can provide the following files:
 
-# Read app environment variables
-source /app.env
+# global environment
+# /app.env
+
+# "install" commandsj
+# /app.preinstall
+# /app.install
+# /app.postinstall
+
+# "run-time" commands
+# /app.configure
+# /app.start
+# /app.poststart
 
 # the script takes one argument, the command
 USAGE="Usage: $0 [ start / install ]"
@@ -21,25 +27,22 @@ if [ $# -ne 1 ]; then
 fi
 command=$1
 
+# Read app environment variables
+source /app.env
+
 set -x
-
-# wait for mysql
-while ! nc -w 1 -z "${db_host}" 3306; do
-  sleep 1;
-done
-
-# set uid on run-time user and directory
-/fix-uids "${php_home}" "${php_user}"
-chown -Rh "${php_user}:${php_user}" "${php_home}"
 
 if [ "${command}" = "install" ]; then
 
+  source /app.preinstall
   source /app.install
-  exit $?
+  source /app.postinstall
 
 elif [ "${command}" = "start" ]; then
 
+  source /app.configure
   source /app.start
+  source /app.poststart
 
 elif [ "${command}" = "configure" ]; then
 
