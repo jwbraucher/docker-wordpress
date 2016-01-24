@@ -1,0 +1,23 @@
+#!/bin/bash
+# vim: set filetype=sh :
+
+# This script configures Wordpress
+
+echo Configuring Wordpress
+sudo -u "${php_user}" /bin/bash -x << END_OF_SUDO
+cd "${php_home}"
+
+echo Resetting database settings
+# (https://tomjn.com/2014/03/01/wordpress-bash-magic/)
+sed -i "/DB_HOST/s/'[^']*'/'${db_host}'/2" wp-config.php
+sed -i "/DB_NAME/s/'[^']*'/'${db_name}'/2" wp-config.php
+sed -i "/DB_USER/s/'[^']*'/'${db_user}'/2" wp-config.php
+sed -i "/DB_PASSWORD/s/'[^']*'/'${db_pass}'/2" wp-config.php
+
+echo Resetting site settings
+wp option update home "${app_url}"
+wp option update siteurl "${app_url}"
+wp user update "${admin_user}" --user_pass="${admin_pass}"
+
+END_OF_SUDO
+

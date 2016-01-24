@@ -1,0 +1,55 @@
+#!/bin/bash
+# vim: set filetype=sh :
+
+# This script manages the application by calling child
+# scripts provided by downstream projects.
+
+# you ust provide the following files:
+# /app.env
+# /app.install
+# /app.start
+# /app.configure
+
+# Read app environment variables
+source /app.env
+
+# the script takes one argument, the command
+USAGE="Usage: $0 [ start / install ]"
+if [ $# -ne 1 ]; then
+  echo $USAGE
+  exit 1
+fi
+command=$1
+
+set -x
+
+# wait for mysql
+while ! nc -w 1 -z "${db_host}" 3306; do
+  sleep 1;
+done
+
+# set uid on run-time user and directory
+/fix-uids "${php_home}" "${php_user}"
+chown -Rh "${php_user}:${php_user}" "${php_home}"
+
+if [ "${command}" = "install" ]; then
+
+  source /app.install
+  exit $?
+
+elif [ "${command}" = "start" ]; then
+
+  source /app.start
+
+elif [ "${command}" = "configure" ]; then
+
+  source /app.configure
+
+else
+
+  # command not supported
+  echo $USAGE
+  exit 1
+
+fi
+
