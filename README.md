@@ -13,7 +13,7 @@ for a complete list of the extensions installed)
 * /fix-uids helper script for host volumes on Mac OS
 
 ## Usage
-By default, ```/php5``` is the entrypoint, the daemon listens on port 9000, and files are served from ```/var/www/php```.
+By default, ```/php``` is the entrypoint, the daemon listens on port 9000, and files are served from ```/var/www/php```.
 
 See the 
 [docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-php/blob/sample-project/docker-compose.yml)
