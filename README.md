@@ -3,38 +3,32 @@
 This [braucher/php](https://hub.docker.com/r/braucher/php/) docker image provides an Ubuntu 14.04 php5-fpm application container configured 
 via the [mayflower/php puppet module](https://github.com/mayflower/puppet-php).
 
-Puppet and related tools are provided from the [braucher/puppet base container](https://github.com/jwbraucher/docker-puppet).
-
-This Github repository provides a software template for a LAMP stack built 
-with the following Docker containers:
-
-* [braucher/php](https://hub.docker.com/r/braucher/php/) (this one)
-* [mysql:5.6](https://hub.docker.com/r/_/mysql/)
-* [httpd:2.4](https://hub.docker.com/r/_/httpd/)
-
 The [braucher/php](https://hub.docker.com/r/braucher/php/) image also includes the following:
 
-* numerous PHP extensions (gd, ldap, curl, imagick, mcrypt, imagick, mysqlnd, xsl, etc.)
+* numerous PHP extensions  
+(see [puppet/php/php.yaml](https://github.com/jwbraucher/docker-php/tree/latest/php/puppet/php.yaml)
+for a complete list of the extensions installed)
 * postfix
-* /php5-fpm entrypoint script (serves files in WORKDIR)
+* /php entrypoint script (serves files in ```$DOCUMENT_ROOT```)
 * /fix-uids helper script for host volumes on Mac OS
 
 ## Usage
-/php5-fpm is the default entrypoint. The daemon listens on port 9000. PHP files are
-served from /var/www/php using the enclosed docker-compose.yaml.
+By default, ```/php5``` is the entrypoint, the daemon listens on port 9000, and files are served from ```/var/www/php```.
 
-Modify Makefile.local to change the app name and build your own containers. 
-If you do change the app name, be sure to rename the containers in 
-docker-compose.yaml as well.
+See the 
+[docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-php/blob/sample-project/docker-compose.yml)
+for an example of how to build a new project from this image using the 
+following Docker images:  
 
-Run the following to start php5-fpm in your container:
+* [braucher/php](https://hub.docker.com/r/braucher/php/) (this one)
+* [braucher/fcgi](https://hub.docker.com/r/braucher/fcgi/)
+* [mysql](https://hub.docker.com/r/_/mysql/)
 
-```
-/php5-fpm [options]
-```
+If you fork the sample-project branch, just modify Makefile.local 
+to change the app name in the new container.
 
 Run the following to correct the permissions on a host volume for a runtime user 
-in your container (needed for host volumes such as Mac OS):
+in your container (needed for host volumes such as those on Mac OS):
 
 ```
 /fix-uids [mountpoint] [runtime user]
