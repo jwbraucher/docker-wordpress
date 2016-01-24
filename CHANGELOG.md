@@ -1,3 +1,8 @@
+# braucher/php 1.1.1
+
+## Bugfixes
+- DOCUMENT_ROOT typo in /php entrypoint
+
 # braucher/php 1.1.0
 
 ## Features
