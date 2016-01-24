@@ -1,0 +1,54 @@
+# Manage PHP with puppet
+classes:
+  - php
+
+# Install PHP 5.6
+php::repo::ubuntu::ppa: "ondrej/php5-5.6"
+
+# FPM global configuration
+php::fpm::config::error_log: /proc/self/fd/2
+
+# FPM pool configuration
+php::fpm::pools:
+  www:
+    listen: 9000
+    php_admin_value:
+        error_log: /proc/self/fd/2
+    php_admin_flag:
+        log_errors: On
+    php_flag:
+        display_errors: Off
+    catch_workers_output: yes
+    php_directives:
+        - 'access.log = /proc/self/fd/2'
+
+# disable Ubuntu FPM service
+php::fpm::service::enable: no
+php::fpm::service::ensure: stopped
+
+# PHP Configuration
+php::settings:
+  PHP/max_execution_time: 600
+  PHP/memory_limit: 1024M
+  PHP/post_max_size: 500M
+  PHP/register_globals: Off
+  PHP/upload_max_filesize: 500M
+  PHP/max_input_vars: 9999
+  PHP/error_reporting: E_ALL
+  PHP/log_errors: On
+  PHP/error_log: /proc/self/fd/2
+  PHP/display_errors: Off
+
+# PHP Extensions
+php::extensions:
+  ldap: {}
+  gd: {}
+  imagick: {}
+  json: {}
+  mysqlnd: {}
+  curl: {}
+  apcu: {}
+  mcrypt: {}
+  intl: {}
+  xsl: {}
+

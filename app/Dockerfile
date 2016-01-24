@@ -7,14 +7,6 @@ MAINTAINER Jeff Braucher <jeff@braucher.net>
 RUN apt-get update && \
   apt-get install -y wordpress postfix
 
-# Disable Apache service
-RUN echo 'manual' > /etc/init/apache2.override
-RUN service apache2 stop
-
-# Disable Postfix service
-RUN update-rc.d postfix disable
-RUN service postfix stop
-
 # Install wp-cli
 RUN composer create-project wp-cli/wp-cli /opt/wp-cli --no-dev
 RUN chmod a+x /opt/wp-cli/bin/wp
@@ -29,3 +21,4 @@ COPY ./app* /
 # Run wordpress
 ENTRYPOINT ["/app"]
 CMD ["start"]
+

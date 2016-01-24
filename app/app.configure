@@ -3,8 +3,18 @@
 
 # This script configures Wordpress
 
+# wait for mysql
+while ! nc -w 1 -z "${db_host}" 3306; do
+  sleep 1;
+done
+
+# set uid on run-time user and directory
+/fix-uids "${php_home}" "${php_user}"
+chown -Rh "${php_user}:${php_user}" "${php_home}"
+
 echo Configuring Wordpress
 sudo -u "${php_user}" /bin/bash -x << END_OF_SUDO
+
 cd "${php_home}"
 
 echo Resetting database settings
