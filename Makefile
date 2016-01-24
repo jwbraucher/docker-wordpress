@@ -18,17 +18,17 @@ include Makefile.local
 rebuild $(image):
 	@\
 nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
-export tag=$(app) ; \
-if [ "$${i}" != "$(app)" ]; then \
-  tag="$(app)-$${i}"; \
-fi; \
 for i in $(image); do \
+  export tag="$(app)-$${i}"; \
+  if [ "$${i}" = "app" ]; then \
+    tag="$(app)"; \
+  fi; \
   cd $${i} ; \
   set -x ; \
   docker build \
     --force-rm=true \
     $${nocache} \
-    -t $${i} . \
+    -t $${app} . \
     || exit $$? ; \
   set +x ; \
   cd .. ; \
