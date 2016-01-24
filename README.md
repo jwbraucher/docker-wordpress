@@ -4,11 +4,9 @@ This [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) docker i
 
 The [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) image also includes the following:
 
-* numerous PHP extensions (
-see [php.yml](https://github.com/jwbraucher/docker-wordpress/tree/latest/app/puppet/php.yml)
-for a complete list
+* wordpress cli configured to run as root
 * postfix
-* /app.* entrypoint scripts
+* /app* entrypoint scripts
 
 ## Usage
 
@@ -35,7 +33,7 @@ Be sure to supply the correct runtime environment variables when
 you first launch the containers. Docker will remember the environment
 variables for subsequent container restarts.
 
-See the [/app.env script](https://github.com/jwbraucher/docker-wordpress/blob/master/app/app.env)
+See the [/app.env script](https://github.com/jwbraucher/docker-wordpress/tree/latest/app/app.env)
 for all accepted parameters. 
 
 ## Development
