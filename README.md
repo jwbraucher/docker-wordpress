@@ -9,7 +9,7 @@ The [braucher/php](https://hub.docker.com/r/braucher/php/) image also includes t
 (see [puppet/php/php.yaml](https://github.com/jwbraucher/docker-php/tree/latest/php/puppet/php.yaml)
 for a complete list of the extensions installed)
 * postfix
-* /app entrypoint script (serves files in ```$DOCUMENT_ROOT```)
+* /app and /app.* entrypoint scripts
 * /fix-uids helper script for host volumes on Mac OS
 
 ## Usage
@@ -32,6 +32,16 @@ branch, modify the following files in your new project:
  - docker-compose.yml, 
  - /app/app.* (leave /app/app alone)
 
+#### add your project parameters as environment variables like this:
+```/app.env```
+
+#### using the default "start" docker command, scripts run like this:
+```
+/app.configure  
+/app.install  
+/app.postinstall  
+```
+
 #### using the "install" docker command, scripts run like this:
 ```
 /app.preinstall  
@@ -39,10 +49,10 @@ branch, modify the following files in your new project:
 /app.postinstall  
 ```
 
-#### using the default "start" docker command, scripts run like this:
+#### use "backup/restore" commands to manage application data
 ```
-/app.configure  
-/app.install  
+/app.backup
+/app.restore
 /app.postinstall  
 ```
 

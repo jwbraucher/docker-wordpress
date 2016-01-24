@@ -9,15 +9,19 @@
 # global environment
 # /app.env
 
-# "install" commandsj
+# install commands
 # /app.preinstall
 # /app.install
 # /app.postinstall
 
-# "run-time" commands
+# run-time commands
 # /app.configure
 # /app.start
 # /app.poststart
+
+# data management commands
+# /app.backup
+# /app.restore
 
 # the script takes one argument, the command
 USAGE="Usage: $0 [ start / install ]"
@@ -30,24 +34,23 @@ command=$1
 # Read app environment variables
 source /app.env
 
+# Run commands
 set -x
 
 if [ "${command}" = "install" ]; then
-
   source /app.preinstall
   source /app.install
   source /app.postinstall
-
 elif [ "${command}" = "start" ]; then
-
   source /app.configure
   source /app.start
   source /app.poststart
-
 elif [ "${command}" = "configure" ]; then
-
   source /app.configure
-
+elif [ "${command}" = "backup" ]; then
+  source /app.backup
+elif [ "${command}" = "restore" ]; then
+  source /app.restore
 else
 
   # command not supported

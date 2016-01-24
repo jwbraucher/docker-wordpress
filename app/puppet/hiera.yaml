@@ -4,5 +4,5 @@
 :merge_behavior: deeper
 :hierarchy:
   - "%{environment}"
-  - php
+  - app
 

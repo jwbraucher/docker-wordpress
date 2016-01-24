@@ -2,3 +2,4 @@
 # vim: set filetype=sh :
 
 # This script pre-configures the container before install.
+source /app.configure

@@ -14,6 +14,7 @@ default: $(image)
 include Makefile.local
 
 # Build the images (default behavior)
+# if "rebuild" target is added, build images with --no-cache
 .PHONY: $(image)
 rebuild $(image):
 	@\
@@ -34,6 +35,7 @@ for i in $(image); do \
   cd .. ; \
 done
 
+# Image/Container/Data clean-up
 .PHONY: clean clean-containers clean-images clean-files
 clean: clean-containers clean-images clean-files
 
@@ -52,8 +54,9 @@ clean-files:
 	@echo "...Cleaning Untracked Files (Git)..."
 	-git clean -xdf
 
-.PHONY: start install
-start install:
+# container commands
+.PHONY: start install configure backup restore
+start install configure backup restore:
 	command=$@ docker-compose up -d $(service)
 
 .PHONY: stop
@@ -69,18 +72,34 @@ status:
 
 .PHONY: logs
 logs:
-	$(eval container := $(shell command=$@ app=${app} ip=${ip} docker-compose ps -q $(service) | head -1) )
-	docker logs -f $(container)
+	@ set -x ; \
+export theservice="$${app}" ; \
+if [ ! -z "$${service}" ]; then \
+  theservice=$${service} ; \
+fi ; \
+container=`docker-compose ps -q $${theservice} 2>/dev/null` ; \
+docker logs -f $${container}
 
 .PHONY: cli
 cli:
-	$(eval container := $(shell command=$@ app=${app} ip=${ip} docker-compose ps -q $(service) | head -1) )
-	docker exec -it $(container) /bin/bash -o vi
+	@ set -x ; \
+export theservice="$${app}" ; \
+if [ ! -z "$${service}" ]; then \
+  theservice=$${service} ; \
+fi ; \
+container=`docker-compose ps -q $${theservice} 2>/dev/null` ; \
+docker exec -it $${container} /bin/bash -o vi
 
 .PHONY: start-cli
 start-cli:
-	command=$@ docker-compose run --rm --entrypoint /bin/bash $(service) -o vi
+	@ set -x ; \
+export theservice="$${app}" ; \
+if [ ! -z "$${service}" ]; then \
+  theservice=$${service} ; \
+fi ; \
+command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 
+# manage docker machine
 .PHONY: machine
 machine:
 	-docker-machine create --driver virtualbox $(USER)
@@ -90,11 +109,13 @@ machine:
 machine-stop:
 	docker-machine stop $(USER)
 
+# Show environment command, and add to clipboard to setup local environment
 .PHONY: env
 env:
 	docker-machine env $(USER)
 	@-docker-machine env $(USER) | tail -1 | sed 's,^# ,,' | pbcopy
 
+# Show network connection information for running containers
 .PHONY: net
 net:
 	@echo "Network Configuration:"

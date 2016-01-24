@@ -16,9 +16,6 @@ RUN /puppet-apply \
 # (see php::fpm::config::error_log in php/puppet/php.yaml)
 RUN sed -i 's:^error_log.*:error_log = /proc/self/fd/2:' /etc/php5/fpm/php-fpm.conf
 
-# Fix comments in xhprof.ini to suppress deprecation warnings
-RUN sed -i 's:^#:;:' /etc/php5/mods-available/xhprof.ini
-
 # Enable upload progress in apcu
 RUN echo apc.rfc1867 = 1 >> /etc/php5/mods-available/apcu.ini
 

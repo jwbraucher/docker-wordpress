@@ -3,4 +3,4 @@
 
 # This script starts php5-fpm
 cd ${docroot}
-/usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf $@
+/usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf
