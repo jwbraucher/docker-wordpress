@@ -2,7 +2,6 @@
 
 FROM braucher/puppet
 MAINTAINER Jeff Braucher <jeff@braucher.net>
-app=php
 
 # Configure the system with puppet
 COPY ./puppet/ /puppet/
@@ -28,6 +27,5 @@ COPY ./fix-uids /fix-uids
 
 # Run php5-fpm on port 9000
 EXPOSE 9000
-WORKDIR /var/www/php
-COPY ./php5-fpm /php5-fpm
-ENTRYPOINT ["/php5-fpm"]
+COPY ./php /php
+ENTRYPOINT ["/php"]

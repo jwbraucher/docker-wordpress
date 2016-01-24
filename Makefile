@@ -13,23 +13,26 @@ default: $(image)
 # Local Project Makefile
 include Makefile.local
 
+# Build the images (default behavior)
 .PHONY: $(image)
-$(image):
-	@for i in $(image); do \
-	  cd $${i} ; \
-	  docker build --build-arg=app=$(app) --force-rm=true -t $${i} . \
-	  || exit $$? ; \
-	  cd .. ; \
-	  done
-
-.PHONY: rebuild
-rebuild:
-	@for i in $(image); do \
-	  cd $${i} ; \
-	  docker build --build-arg=app=$(app) --force-rm=true -t $${i} --no-cache . \
-	  || exit $$? ; \
-	  cd .. ; \
-	  done
+rebuild $(image):
+	@\
+nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
+export tag=$(app) ; \
+if [ "$${i}" != "$(app)" ]; then \
+  tag="$(app)-$${i}"; \
+fi; \
+for i in $(image); do \
+  cd $${i} ; \
+  set -x ; \
+  docker build \
+    --force-rm=true \
+    $${nocache} \
+    -t $${i} . \
+    || exit $$? ; \
+  set +x ; \
+  cd .. ; \
+done
 
 .PHONY: clean clean-containers clean-images clean-files
 clean: clean-containers clean-images clean-files
