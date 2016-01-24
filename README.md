@@ -53,7 +53,6 @@ branch, modify the following files in your new project:
 ```
 /app.backup
 /app.restore
-/app.postinstall  
 ```
 
 ## Development
