@@ -6,7 +6,7 @@ via the [mayflower/php puppet module](https://github.com/mayflower/puppet-php).
 The [braucher/php](https://hub.docker.com/r/braucher/php/) image also includes the following:
 
 * numerous PHP extensions  
-(see [puppet/php/php.yaml](https://github.com/jwbraucher/docker-php/tree/latest/app/puppet/php.yaml)
+(see [puppet/app/app.yaml](https://github.com/jwbraucher/docker-php/tree/latest/app/puppet/app.yaml)
 for a complete list of the extensions installed)
 * postfix
 * /app and /app.* entrypoint scripts
