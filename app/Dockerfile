@@ -25,7 +25,9 @@ RUN echo apc.rfc1867 = 1 >> /etc/php5/mods-available/apcu.ini
 # Script to fix uids on host volumes
 COPY ./fix-uids /fix-uids
 
-# Run php5-fpm on port 9000
+# Run php
 EXPOSE 9000
-COPY ./php /php
-ENTRYPOINT ["/php"]
+COPY ./app* /
+ENTRYPOINT ["/app"]
+CMD ["start"]
+
