@@ -1,3 +1,9 @@
+# braucher/php 1.2.0
+
+## Features
+- Refactored master to use new "app" format
+- Upgraded php to 5.6
+
 # braucher/php 1.1.1
 
 ## Bugfixes

@@ -1,0 +1,61 @@
+#!/bin/bash
+# vim: set filetype=sh :
+
+# This script manages the application by calling child
+# scripts provided by downstream projects.
+
+# downstream projects can provide the following files:
+
+# global environment
+# /app.env
+
+# install commands
+# /app.preinstall
+# /app.install
+# /app.postinstall
+
+# run-time commands
+# /app.configure
+# /app.start
+# /app.poststart
+
+# data management commands
+# /app.backup
+# /app.restore
+
+# the script takes one argument, the command
+USAGE="Usage: $0 [ start / install ]"
+if [ $# -ne 1 ]; then
+  echo $USAGE
+  exit 1
+fi
+command=$1
+
+# Read app environment variables
+source /app.env
+
+# Run commands
+set -x
+
+if [ "${command}" = "install" ]; then
+  source /app.preinstall
+  source /app.install
+  source /app.postinstall
+elif [ "${command}" = "start" ]; then
+  source /app.configure
+  source /app.start
+  source /app.poststart
+elif [ "${command}" = "configure" ]; then
+  source /app.configure
+elif [ "${command}" = "backup" ]; then
+  source /app.backup
+elif [ "${command}" = "restore" ]; then
+  source /app.restore
+else
+
+  # command not supported
+  echo $USAGE
+  exit 1
+
+fi
+
