@@ -4,12 +4,16 @@ This [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) docker i
 
 The [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) image also includes the following:
 
-* numerous PHP extensions (gd, ldap, curl, imagick, mcrypt, imagick, mysqlnd, xsl, etc.)
+* numerous PHP extensions (
+see [php.yml](https://github.com/jwbraucher/docker-wordpress/tree/latest/app/puppet/php.yml)
+for a complete list
 * postfix
-* /wordpress entrypoint script
-* /fix-uids helper script for host volumes on Mac OS
+* /app.* entrypoint scripts
 
 ## Usage
+
+By default, ```/app start``` is the entrypoint and command, the daemon listens on port 9000, and files are served from /var/www/app.
+Run ```/app install``` instead to install Wordpress.
 
 See the
 [docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-wordpress/tree/sample-project/docker-compose.yml)
