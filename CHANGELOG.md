@@ -1,3 +1,7 @@
+# braucher/wordpress 1.1.0
+## Features
+* merged in features from braucher/php-1.2.0
+
 # braucher/wordpress 1.0.0
 
 ## Features
