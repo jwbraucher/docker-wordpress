@@ -1,0 +1,3 @@
+# Local wordpress install
+wp theme install zerif-lite
+wp theme install responsiveboat --activate

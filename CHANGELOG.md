@@ -1,4 +1,9 @@
 
+# braucher/wordpress 1.4.0
+
+## Features
+* add app.install.local script
+
 # braucher/wordpress 1.3.0
 
 ## Features

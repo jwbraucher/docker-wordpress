@@ -1,4 +1,4 @@
-# braucher/wordpress 1.3.0
+# braucher/wordpress 1.4.0
 
 This [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) docker image provides an Ubuntu 14.04 Wordpress application container.
 
@@ -24,9 +24,10 @@ following Docker images:
 * [braucher/fcgi](https://hub.docker.com/r/braucher/fcgi/)
 * [mysql](https://hub.docker.com/r/_/mysql/)
 
-If you fork the sample-project branch, just modify Makefile.local and docker-compose.yml
-to change the app name for the new container.
-
+If you fork the sample-project branch, modify the following files:
+* Makefile.local 
+* docker-compose.yml
+app/app.*
 
 ### Environment Variables
 
