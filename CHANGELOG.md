@@ -1,3 +1,8 @@
+# braucher/wordpress 1.2.1
+
+## Bugfixesj
+* all /app.configure at the beginning of /app.install
+
 # braucher/wordpress 1.2.0
 
 ## Features
