@@ -1,6 +1,8 @@
 #!/bin/bash -ex
 # vim: set filetype=sh :
 
+source /app.configure
+
 # This script starts php5-fpm
 cd ${docroot}
 /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

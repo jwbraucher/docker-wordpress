@@ -1,4 +1,0 @@
-#!/bin/bash -ex
-# vim: set filetype=sh :
-
-# This script runs post-install scripts on the container
