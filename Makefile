@@ -54,6 +54,10 @@ clean-files:
 	@echo "...Cleaning Untracked Files (Git)..."
 	-git clean -xdf
 
+pull:
+	@echo "...Pulling images..."
+	command=$@ docker-compose pull
+
 # container commands
 .PHONY: start install configure backup restore
 start install configure backup restore:
