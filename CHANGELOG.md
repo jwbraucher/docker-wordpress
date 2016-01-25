@@ -1,7 +1,14 @@
+
+# braucher/wordpress 1.3.0
+
+## Features
+* added wordpress app.backup script
+* added backupwordpress plugin to app.install
+
 # braucher/wordpress 1.2.1
 
-## Bugfixesj
-* all /app.configure at the beginning of /app.install
+## Bugfixes
+* added /app.configure to the beginning of /app.install
 
 # braucher/wordpress 1.2.0
 

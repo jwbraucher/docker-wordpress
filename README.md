@@ -1,4 +1,4 @@
-# braucher/wordpress 1.2.1
+# braucher/wordpress 1.3.0
 
 This [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) docker image provides an Ubuntu 14.04 Wordpress application container.
 
@@ -10,8 +10,10 @@ The [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) image als
 
 ## Usage
 
-By default, ```/app start``` is the entrypoint and command, the daemon listens on port 9000, and files are served from /var/www/app.
-Run ```/app install``` instead to install Wordpress.
+By default, ```/app start``` is the entrypoint and command, 
+the daemon listens on port 9000, and files are served from /var/www/app.
+Run ```/app install``` to install Wordpress.
+Run ```/app backup``` to backup the Wordpress installation
 
 See the
 [docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-wordpress/tree/sample-project/docker-compose.yml)
@@ -23,7 +25,7 @@ following Docker images:
 * [mysql](https://hub.docker.com/r/_/mysql/)
 
 If you fork the sample-project branch, just modify Makefile.local and docker-compose.yml
-to change the app name in the new container.
+to change the app name for the new container.
 
 
 ### Environment Variables
