@@ -1,3 +1,8 @@
+# braucher/wordpress 1.1.1
+
+## Features
+* WORKDIR change
+
 # braucher/wordpress 1.1.0
 ## Features
 * merged in features from braucher/php-1.2.0

@@ -1,4 +1,4 @@
-# braucher/wordpress 1.1.0
+# braucher/wordpress 1.1.1
 
 This [braucher/wordpress](https://hub.docker.com/r/braucher/wordpress/) docker image provides an Ubuntu 14.04 Wordpress application container.
 
