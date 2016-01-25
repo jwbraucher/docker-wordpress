@@ -5,13 +5,10 @@
 * added wordpress app.backup script
 * added backupwordpress plugin to app.install
 
-## Bugfixes
-* all /app.configure at the beginning of /app.install
-
 # braucher/wordpress 1.2.1
 
 ## Bugfixes
-* all /app.configure at the beginning of /app.install
+* added /app.configure to the beginning of /app.install
 
 # braucher/wordpress 1.2.0
 
