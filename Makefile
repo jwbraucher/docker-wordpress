@@ -41,7 +41,7 @@ clean: clean-containers clean-images clean-files
 
 clean-containers:
 	@echo "...Cleaning Containers..."
-	-command=$@ docker-compose rm -f -v $(image)
+	-command=$@ docker-compose rm -f -v
 	$(eval containers := $(shell docker ps -a -q --filter='status=exited') )
 	-@for container in ${containers}; do docker rm $${container}; done
 
