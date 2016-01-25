@@ -4,6 +4,7 @@ wordpress:
     - "${app}-db"
   volumes:
     - './volumes/app:/var/www/app'
+    - './volumes/export:/export'
   command: "${command}"
   environment:
     DOCUMENT_ROOT: '/var/www/app'

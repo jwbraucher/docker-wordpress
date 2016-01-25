@@ -26,4 +26,7 @@ wp core install \
   --admin_password="${admin_pass}" \
   --admin_email="${admin_email}"
 
+# Setup backup plugin
+wp plugin install --activate backupwordpress
+
 END_OF_SUDO

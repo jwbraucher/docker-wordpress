@@ -56,11 +56,12 @@ clean-files:
 
 pull:
 	@echo "...Pulling images..."
+	docker pull braucher/$(app)
 	command=$@ docker-compose pull
 
 # container commands
-.PHONY: start install configure backup restore
-start install configure backup restore:
+.PHONY: start install
+start install:
 	command=$@ docker-compose up -d $(service)
 
 .PHONY: stop
@@ -102,6 +103,14 @@ if [ ! -z "$${service}" ]; then \
   theservice=$${service} ; \
 fi ; \
 command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
+
+# run backup and restore
+.PHONY: backup restore configure
+backup restore configure:
+	@ set -x ; \
+command=$(@) ; \
+container=`docker-compose ps -q $${app} 2>/dev/null` ; \
+docker exec -it $${container} /app $${command}
 
 # manage docker machine
 .PHONY: machine
