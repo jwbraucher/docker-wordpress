@@ -19,6 +19,8 @@ RUN echo alias \'wp=sudo -u www-data wp\' >> ~/.bashrc
 COPY ./app* /
 
 # Run wordpress
+RUN mkdir -p /var/www/app
+WORKDIR /var/www/app
 ENTRYPOINT ["/app"]
 CMD ["start"]
 
