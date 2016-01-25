@@ -39,17 +39,14 @@ branch, modify the following files in your new project:
 ```
 /app.configure  
 /app.install  
-/app.postinstall  
 ```
 
-#### using the "install" docker command, scripts run like this:
+#### use the "install" command to download and install the app
 ```
-/app.preinstall  
 /app.install  
-/app.postinstall  
 ```
 
-#### use "backup/restore" commands to manage application data
+#### use the "backup/restore" commands to manage application data
 ```
 /app.backup
 /app.restore
