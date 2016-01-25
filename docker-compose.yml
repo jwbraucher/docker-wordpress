@@ -1,5 +1,5 @@
 wordpress:
-  image: "${app}"
+  build: app
   links:
     - "${app}-db"
   volumes:

@@ -19,21 +19,19 @@ include Makefile.local
 rebuild $(image):
 	@\
 nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
-for i in $(image); do \
-  export tag="$(app)-$${i}"; \
-  if [ "$${i}" = "app" ]; then \
-    tag="$(app)"; \
-  fi; \
-  cd $${i} ; \
-  set -x ; \
-  docker build \
-    --force-rm=true \
-    $${nocache} \
-    -t $${app} . \
-    || exit $$? ; \
-  set +x ; \
-  cd .. ; \
-done
+set -x ; \
+docker-compose build \
+  --force-rm \
+  $${nocache} \
+
+# Clean up everything including all local images
+.PHONY: distclean
+distclean: stop clean
+	@ set -x ; \
+images=`docker images -q` ; \
+for i in $${images}; do \
+  docker rmi -f $${i} ; \
+  done
 
 # Image/Container/Data clean-up
 .PHONY: clean clean-containers clean-images clean-files
@@ -55,7 +53,7 @@ clean-files:
 	-git clean -xdf
 
 pull:
-	@echo "...Pulling images..."
+	@echo "...Pulling image..."
 	docker pull braucher/$(app)
 	command=$@ docker-compose pull
 
