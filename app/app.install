@@ -3,6 +3,8 @@
 
 # This script installs Wordpress.
 
+source /app.configure
+
 echo Installing Wordpress
 sudo -u "${php_user}" /bin/bash -x << END_OF_SUDO
 cd "${php_home}"
