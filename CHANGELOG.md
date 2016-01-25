@@ -1,3 +1,9 @@
+
+# braucher/php 1.3.0
+
+## Features
+- improved Makefile for backups
+
 # braucher/php 1.2.1
 
 ## Features

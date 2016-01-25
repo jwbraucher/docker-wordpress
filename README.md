@@ -1,4 +1,4 @@
-# braucher/php 1.2.1
+# braucher/php 1.3.0
 
 This [braucher/php](https://hub.docker.com/r/braucher/php/) docker image provides an Ubuntu 14.04 php5-fpm application container configured 
 via the [mayflower/php puppet module](https://github.com/mayflower/puppet-php).
