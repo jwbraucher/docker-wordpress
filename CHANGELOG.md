@@ -1,3 +1,8 @@
+# braucher/php 1.2.1
+
+## Features
+- Removed some of the new app scripts
+
 # braucher/php 1.2.0
 
 ## Features
