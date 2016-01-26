@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script installs the app
+
+source /app.configure
+
+sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
+cd "${app_home}"
+
+END_OF_SUDO
+
+# Run project-specific installation commands
+source /app.install.local
+
+# Start the app
+source /app.start

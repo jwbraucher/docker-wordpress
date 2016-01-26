@@ -1,0 +1,11 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script backs up the application to an archive file
+
+sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
+cd "${app_home}"
+
+tar -zcf ${backup} /app*
+
+END_OF_SUDO

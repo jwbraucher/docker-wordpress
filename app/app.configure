@@ -1,0 +1,14 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script configures the container
+
+# wait for database service
+while ! nc -w 1 -z "${db_host}" 3306; do
+  sleep 1;
+done
+
+# set uid on run-time user and directory
+/fix-uids "${app_home}" "${app_user}"
+chown "${app_user}:${app_user}" "${app_home}"
+

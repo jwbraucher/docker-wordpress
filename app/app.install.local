@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script is for local project installation instructions

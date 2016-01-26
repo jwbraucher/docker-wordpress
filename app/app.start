@@ -1,0 +1,9 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script starts the app
+
+source /app.configure
+
+cd ${app_home}
+sudo -u ${app_user} /bin/bash -l

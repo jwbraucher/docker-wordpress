@@ -1,0 +1,47 @@
+app:
+  build: app
+  links:
+    - "${app}-db"
+  volumes:
+    - './volumes/app:/var/www/app'
+    - './volumes/export:/export'
+  command: "${command}"
+  environment:
+    APP_HOME: '/var/www/app'
+    APP_VERSION: 'latest'
+    APP_LOCALE: 'en_US'
+    APP_CURRENCY: 'USD'
+    APP_TIMEZONE: 'MST7MDT'
+    APP_TITLE: "${app}"
+    APP_ADMIN_USER: 'admin'
+    APP_ADMIN_EMAIL: 'admin@example.com'
+    APP_ADMIN_PASSWORD: "password4${app}"
+    APP_URL: "http://${ip}"
+    APP_DB_HOST: "${app}-db"
+    APP_DB_NAME: "${app}"
+    APP_DB_USER: "${app}"
+    APP_DB_PASSWORD: "password4${app}"
+app-db:
+  image: 'mysql:5.6'
+  volumes:
+    - '/var/lib/mysql'
+  environment:
+    MYSQL_ROOT_PASSWORD: "root4${app}"
+    MYSQL_DATABASE: "${app}"
+    MYSQL_USER: "${app}"
+    MYSQL_PASSWORD: "password4${app}"
+app-web:
+  image: 'braucher/fcgi'
+  ports:
+    - '80:80'
+    - '443:443'
+  links:
+    - "${app}"
+  volumes:
+    - './volumes/app:/var/www/app:ro'
+  environment:
+    PROXY_TARGET: "${app}:9000"
+    DOCUMENT_ROOT: '/var/www/app'
+    DIRECTORY_INDEX: 'index.php'
+    FILES_MATCH: '\.php$$'
+

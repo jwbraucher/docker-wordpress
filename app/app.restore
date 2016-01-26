@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+# vim: set filetype=sh :
+
+# This script restores the application from a backup archive file
