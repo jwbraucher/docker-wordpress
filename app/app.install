@@ -29,7 +29,10 @@ wp core install \
 # Setup backup plugin
 wp plugin install --activate backupwordpress
 
+END_OF_SUDO
+
 # Run project-specific installation commands
 source /app.install.local
 
-END_OF_SUDO
+# Start the app
+source /app.start
