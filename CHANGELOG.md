@@ -1,3 +1,7 @@
+# braucher/wordpress 1.4.1
+
+## Features
+* Made 'make install' start the app
 
 # braucher/wordpress 1.4.0
 
