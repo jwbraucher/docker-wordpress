@@ -20,7 +20,7 @@ rebuild $(image):
 	@\
 nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
 set -x ; \
-docker-compose build \
+command=$@ docker-compose build \
   --force-rm \
   $${nocache} \
 
@@ -54,6 +54,7 @@ clean-files:
 
 pull:
 	@echo "...Pulling image..."
+	docker pull braucher/$(app)
 	command=$@ docker-compose pull
 
 # container commands
