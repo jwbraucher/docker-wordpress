@@ -1,3 +1,8 @@
-# Local wordpress install
-wp theme install zerif-lite
-wp theme install responsiveboat --activate
+# downstream project installation example
+sudo -u "${php_user}" /bin/bash -ex << END_OF_SUDO
+cd "${php_home}"
+
+# wp theme install [NEW THEME]
+# wp theme install [NEW THEME] --activate
+
+END_OF_SUDO
