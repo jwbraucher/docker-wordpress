@@ -49,18 +49,27 @@ clean-images:
 	-@for i in ${images}; do docker rmi $${i}; done
 
 clean-files:
-	@echo "...Cleaning Untracked Files (Git)..."
-	-git clean -xdf
+	@echo "...Cleaning Untracked Files (Git)..." ; set -x ; \
+  git ls-files --directory --others -i --exclude-standard \
+  | grep -v volumes/export | xargs -t rm -rf
 
 pull:
 	@echo "...Pulling image..."
 	docker pull braucher/$(app)
 	command=$@ docker-compose pull
 
-# container commands
-.PHONY: start install
-start install:
+# stopped container commands
+.PHONY: start install restore
+start install restore:
 	command=$@ docker-compose up -d $(service)
+
+# running container commands
+.PHONY: backup configure
+backup configure:
+	@ set -x ; \
+command=$(@) ; \
+container=`docker-compose ps -q $${app} 2>/dev/null` ; \
+docker exec -it $${container} /app $${command}
 
 .PHONY: stop
 stop:
@@ -101,14 +110,6 @@ if [ ! -z "$${service}" ]; then \
   theservice=$${service} ; \
 fi ; \
 command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
-
-# run backup and restore
-.PHONY: backup restore configure
-backup restore configure:
-	@ set -x ; \
-command=$(@) ; \
-container=`docker-compose ps -q $${app} 2>/dev/null` ; \
-docker exec -it $${container} /app $${command}
 
 # manage docker machine
 .PHONY: machine
