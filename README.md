@@ -13,9 +13,9 @@ The [braucher/app](https://hub.docker.com/r/braucher/app/) image includes the fo
 
 ## Usage
 
-By default, >/app start> is the entrypoint and command.  
-Run >/app install> to install.  
-Run >/app backup> to backup.  
+By default, ```/app start``` is the entrypoint and command.  
+Run ```/app install``` to install.  
+Run ```/app backup``` to backup.  
 
 See the [docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-app/tree/latest/docker-compose.yml)
 for an example of how to build a new project from this image using the following Docker images:
