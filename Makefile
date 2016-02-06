@@ -69,8 +69,6 @@ git checkout master ; \
 git tag $${version} ; \
 git checkout latest ; \
 git merge master ; \
-git checkout sample-project ; \
-git merge master ; \
 git checkout master ; \
 git push -u origin $${version} master latest sample-project
 
