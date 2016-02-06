@@ -68,9 +68,9 @@ version=`cat VERSION` ; \
 git checkout master ; \
 git tag $${version} ; \
 git checkout latest ; \
-git pull master ; \
+git merge master ; \
 git checkout sample-project ; \
-git pull master ; \
+git merge master ; \
 git checkout master ; \
 git push -u origin $${version} master latest sample-project
 
