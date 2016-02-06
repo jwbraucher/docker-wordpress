@@ -1,3 +1,8 @@
+# braucher/app 1.2.1 unreleased
+
+## Bugfixes
+- Removed sample-project from release process
+
 # braucher/app 1.2.0
 
 ## Features

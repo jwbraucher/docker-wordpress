@@ -1,4 +1,4 @@
-# braucher/app 1.1.0
+# braucher/app 1.2.1 UNRELEASED
 
 This [braucher/app](https://hub.docker.com/r/braucher/app/) docker image provides an Ubuntu 14.04 application container.
 
