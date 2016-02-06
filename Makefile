@@ -13,6 +13,8 @@ default: $(image)
 # Local Project Makefile
 include Makefile.local
 
+### Build Commands
+
 # Build the images (default behavior)
 # if "rebuild" target is added, build images with --no-cache
 .PHONY: $(image)
@@ -59,6 +61,20 @@ pull:
 	@echo "...Pulling image..."
 	docker pull braucher/$(app)
 	command=$@ docker-compose pull
+
+release:
+	@echo "...Pushing new release..." ; set -ex \
+version=`cat VERSION` ; \
+git checkout master
+git tag $${version} ; \
+git checkout latest ; \
+git pull origin master ; \
+git checkout sample-project ; \
+git pull origin master ; \
+git checkout master ; \
+git push -u origin $${version} master latest sample-project
+
+### Container Commands
 
 # stopped container commands
 .PHONY: start install restore
@@ -113,6 +129,8 @@ if [ ! -z "$${service}" ]; then \
 fi ; \
 command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 
+### Docker Machine commands
+
 # manage docker machine
 .PHONY: machine
 machine:
@@ -153,3 +171,4 @@ docker inspect \
     --format '{{ .Config.Volumes }}' $${container} ; \
 printf '\n' ; \
 done
+
