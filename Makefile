@@ -13,6 +13,8 @@ default: $(image)
 # Local Project Makefile
 include Makefile.local
 
+### Build Commands
+
 # Build the images (default behavior)
 # if "rebuild" target is added, build images with --no-cache
 .PHONY: $(image)
@@ -38,25 +40,41 @@ for i in $${images}; do \
 clean: clean-containers clean-images clean-files
 
 clean-containers:
-	@echo "...Cleaning Containers..."
-	-command=$@ docker-compose rm -f -v
-	$(eval containers := $(shell docker ps -a -q --filter='status=exited') )
-	-@for container in ${containers}; do docker rm $${container}; done
+	@echo "...Cleaning Containers..." ; set -x ; \
+command=$@ docker-compose rm -f -v ; \
+containers=`docker ps -a -q --filter='status=exited'` ; \
+for container in $${containers}; do docker rm $${container}; done
 
 clean-images:
-	@echo "...Cleaning Images..."
-	$(eval images := $(shell docker images | grep '^<none>' | awk '{print $$3}' ))
-	-@for i in ${images}; do docker rmi $${i}; done
+	@echo "...Cleaning Images..." ; set -x ; \
+images=`docker images | grep '^<none>' | awk '{print $$3}'` ; \
+for i in $${images}; do docker rmi $${i}; done
 
 clean-files:
-	@echo "...Cleaning Untracked Files (Git)..." ; set -x ; \
-  git ls-files --directory --others -i --exclude-standard \
-  | grep -v volumes/export | xargs -t rm -rf
+	@echo "...Cleaning Files..." ; set -x ;\
+find volumes/ \
+-type d -name export -prune -o \
+-type f -exec rm -f {} \; ; \
+find volumes/ -type d -empty -delete
 
 pull:
 	@echo "...Pulling image..."
 	docker pull braucher/$(app)
 	command=$@ docker-compose pull
+
+release:
+	@echo "...Pushing new release..." ; set -ex ; \
+version=`cat VERSION` ; \
+git checkout master ; \
+git tag $${version} ; \
+git checkout latest ; \
+git merge master ; \
+git checkout sample-project ; \
+git merge master ; \
+git checkout master ; \
+git push -u origin $${version} master latest sample-project
+
+### Container Commands
 
 # stopped container commands
 .PHONY: start install restore
@@ -111,6 +129,8 @@ if [ ! -z "$${service}" ]; then \
 fi ; \
 command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 
+### Docker Machine commands
+
 # manage docker machine
 .PHONY: machine
 machine:
@@ -137,3 +157,18 @@ net:
 	    sed 's,[^0-9 ],,g' ; \
 	  done ) )
 	@for port in ${PORTS} ; do printf "${ip}:$${port}\n"; done
+
+# Show volumes on running containers
+.PHONY: volumes
+volumes:
+	@ \
+containers=`docker ps -q` ; \
+for container in $${containers}; do \
+printf 'Volumes on ' ; \
+image=`docker ps --filter=id=$${container} --format='{{ .Image }}'` ; \
+printf "$${image}:\n" ; \
+docker inspect \
+    --format '{{ .Config.Volumes }}' $${container} ; \
+printf '\n' ; \
+done
+
