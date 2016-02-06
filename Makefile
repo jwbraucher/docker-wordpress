@@ -63,14 +63,14 @@ pull:
 	command=$@ docker-compose pull
 
 release:
-	@echo "...Pushing new release..." ; set -ex \
+	@echo "...Pushing new release..." ; set -ex ; \
 version=`cat VERSION` ; \
-git checkout master
+git checkout master ; \
 git tag $${version} ; \
 git checkout latest ; \
-git pull origin master ; \
+git pull master ; \
 git checkout sample-project ; \
-git pull origin master ; \
+git pull master ; \
 git checkout master ; \
 git push -u origin $${version} master latest sample-project
 
