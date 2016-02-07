@@ -1,7 +1,8 @@
-# braucher/app 1.2.1 unreleased
+# braucher/app 1.2.1
 
 ## Bugfixes
 - Removed sample-project from release process
+- Updated Makefile to use inline bash scripts for targets
 
 # braucher/app 1.2.0
 
