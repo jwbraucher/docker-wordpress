@@ -2,7 +2,7 @@
 export
 SHELL := /bin/bash
 ip := 0.0.0.0
-command := start
+command := default
 
 # Recipes
 
