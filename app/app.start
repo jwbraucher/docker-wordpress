@@ -1,8 +1,9 @@
 #!/bin/bash -ex
 # vim: set filetype=sh :
 
+# This script starts the app
+
 source /app.configure
 
-# This script starts php5-fpm
-cd ${docroot}
+cd ${app_home}
 /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

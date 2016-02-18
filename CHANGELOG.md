@@ -1,3 +1,8 @@
+# braucher/wordpress unreleased
+
+## Features
+* Merged in braucher/app-1.3.0
+
 # braucher/wordpress 1.4.1
 
 ## Features
