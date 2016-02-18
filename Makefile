@@ -64,8 +64,6 @@ done
 release:
 	@echo "...Pushing new release..." ; set -ex ; \
 version=`cat VERSION` ; \
-echo README.md | sed '1s/.*un[-]?released.*/# $${version}/' ; \
-echo CHANGELOG.md | sed '1s/.*un[-]?released.*/# $${version}/' ; \
 git checkout master ; git tag $${version} ; git push origin $${version} ; \
 git checkout latest ; git merge master ; git push origin latest ; \
 git checkout master ; 

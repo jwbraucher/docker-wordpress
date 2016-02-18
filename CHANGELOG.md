@@ -1,4 +1,4 @@
-# braucher/wordpress unreleased
+# braucher/wordpress 1.5.0
 
 ## Features
 * Merged in braucher/app-1.3.0
