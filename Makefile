@@ -82,6 +82,7 @@ docker-compose up -d $${service}
 .PHONY: backup configure
 backup configure:
 	@ set -x ; \
+export command=$@ ; \
 container=`docker-compose ps -q $${app} 2>/dev/null` ; \
 docker exec -it $${container} /app $${command}
 
@@ -123,7 +124,7 @@ export theservice="$${app}" ; \
 if [ ! -z "$${service}" ]; then \
   theservice=$${service} ; \
 fi ; \
-command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
+docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 
 ### Docker Machine commands
 
