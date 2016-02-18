@@ -1,31 +1,38 @@
-# braucher/app 1.2.1
+## braucher/app unreleased
 
-## Bugfixes
+### Features
+- make release now updates CHANGELOG.md and README.md
+- make release pushes each update one at a time
+- restyled CHANGELOG
+
+## braucher/app 1.2.1
+
+### Bugfixes
 - Removed sample-project from release process
 - Updated Makefile to use inline bash scripts for targets
 
-# braucher/app 1.2.0
+## braucher/app 1.2.0
 
-## Features
+### Features
 - added 'make release', VERSION
 - added 'make volumes'
 - app-web can write to app volume to create document root
 - improved dev documentation
 
-## Bugfixes
+### Bugfixes
 - improved 'make clean'
 
-# braucher/app 1.1.0
+## braucher/app 1.1.0
 
-## Features
+### Features
 - excluded volumes/export from 'make clean'
 
-## Bugfixes
+### Bugfixes
 - fixed datestamp in backup filename (hour was missing)
 
-# braucher/app 1.0.0
+## braucher/app 1.0.0
 
-## Features
+### Features
 - Makefile
 - /app entrypoint
 - /fix-uids

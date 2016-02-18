@@ -62,12 +62,11 @@ done
 release:
 	@echo "...Pushing new release..." ; set -ex ; \
 version=`cat VERSION` ; \
-git checkout master ; \
-git tag $${version} ; \
-git checkout latest ; \
-git merge master ; \
-git checkout master ; \
-git push -u origin $${version} master latest
+echo README.md | sed '1s/.*un[-]?released.*/# $${version}/i' ; \
+echo CHANGELOG.md | sed '1s/.*un[-]?released.*/# $${version}/i' ; \
+git checkout master ; git tag $${version} ; git push origin $${version} ; \
+git checkout latest ; git merge master ; git push origin latest ; \
+git checkout master ; 
 
 ### Container Commands
 
