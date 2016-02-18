@@ -10,7 +10,7 @@ done
 
 # set uid on run-time user and directory
 /fix-uids "${app_home}" "${app_user}"
-chown -Rh "${app_user}:${php_user}" "${php_home}"
+chown -Rh "${app_user}:${app_user}" "${app_home}"
 
 echo Configuring Wordpress
 sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
