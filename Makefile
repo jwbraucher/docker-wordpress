@@ -49,7 +49,7 @@ clean-files:
 find volumes/ \
 -type d -name export -prune -o \
 -type f -exec rm -f {} \; ; \
-find volumes/ -type d -empty -delete
+find volumes/ -mindepth 1 -type d -empty -delete
 
 pull:
 	@echo "...Pulling images..." ; \
