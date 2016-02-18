@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 # vim: set filetype=sh :
 
 # This script installs Wordpress.
@@ -33,6 +33,3 @@ END_OF_SUDO
 
 # Run project-specific installation commands
 source /app.install.local
-
-# Start the app
-source /app.start
