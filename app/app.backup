@@ -4,8 +4,8 @@
 # This script backs up the application to an archive file
 
 echo Backing up Wordpress
-sudo -u "${php_user}" /bin/bash -x << END_OF_SUDO
-cd "${php_home}"
+sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
+cd "${app_home}"
 
 wp backupwordpress backup
 find wp-content/ -name backup.zip \

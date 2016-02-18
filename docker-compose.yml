@@ -7,13 +7,14 @@ wordpress:
     - './volumes/export:/export'
   command: "${command}"
   environment:
-    DOCUMENT_ROOT: '/var/www/app'
+    APP_HOME: '/var/www/app'
     APP_VERSION: 'latest'
-    APP_LOCALE: 'en_us'
+    APP_LOCALE: 'en_US'
+    APP_TIMEZONE: 'MST7MDT'
     APP_TITLE: "${app}"
     APP_ADMIN_USER: 'admin'
     APP_ADMIN_EMAIL: 'admin@example.com'
-    APP_ADMIN_PASSWORD: 'admin'
+    APP_ADMIN_PASSWORD: "password4${app}"
     APP_URL: "http://${ip}"
     APP_DB_HOST: "${app}-db"
     APP_DB_NAME: "${app}"
@@ -24,7 +25,7 @@ wordpress-db:
   volumes:
     - '/var/lib/mysql'
   environment:
-    MYSQL_ROOT_PASSWORD: "root_66_${app}"
+    MYSQL_ROOT_PASSWORD: "root4${app}"
     MYSQL_DATABASE: "${app}"
     MYSQL_USER: "${app}"
     MYSQL_PASSWORD: "password4${app}"
@@ -36,7 +37,7 @@ wordpress-web:
   links:
     - "${app}"
   volumes:
-    - './volumes/app:/var/www/app:ro'
+    - './volumes/app:/var/www/app'
   environment:
     PROXY_TARGET: "${app}:9000"
     DOCUMENT_ROOT: '/var/www/app'

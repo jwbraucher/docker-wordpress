@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 # vim: set filetype=sh :
 
 # This script installs Wordpress.
@@ -6,8 +6,8 @@
 source /app.configure
 
 echo Installing Wordpress
-sudo -u "${php_user}" /bin/bash -ex << END_OF_SUDO
-cd "${php_home}"
+sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
+cd "${app_home}"
 
 wp core download \
   --version="${version}"
@@ -33,6 +33,3 @@ END_OF_SUDO
 
 # Run project-specific installation commands
 source /app.install.local
-
-# Start the app
-source /app.start

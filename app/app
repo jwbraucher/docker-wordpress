@@ -6,20 +6,17 @@
 
 # downstream projects can provide the following files:
 
-# global environment
+## global environment
 # /app.env
 
-# install commands
-# /app.preinstall
-# /app.install
-# /app.postinstall
+## downstream project post-install commands
+# /app.install.local
 
-# run-time commands
 # /app.configure
+# /app.install
 # /app.start
-# /app.poststart
 
-# data management commands
+## data management commands
 # /app.backup
 # /app.restore
 

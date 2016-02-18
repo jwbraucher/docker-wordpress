@@ -1,6 +1,6 @@
 # downstream project installation example
-sudo -u "${php_user}" /bin/bash -ex << END_OF_SUDO
-cd "${php_home}"
+sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
+cd "${app_home}"
 
 # wp theme install [NEW THEME]
 # wp theme install [NEW THEME] --activate
