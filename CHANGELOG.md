@@ -1,4 +1,11 @@
-## braucher/app unreleased
+## braucher/app 1.3.1
+
+### Bugfixes
+- Reverted having 'make release' update CHANGELOG.md and README.md
+- Fixed environment variables in Makefile targets
+- Fixed syntax error in Makefile
+
+## braucher/app 1.3.0
 
 ### Features
 - make release now updates CHANGELOG.md and README.md
