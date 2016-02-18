@@ -140,7 +140,7 @@ machine-stop:
 .PHONY: env
 env:
 	@- docker-machine env $(USER) ; \
--docker-machine env $(USER) | \
+  docker-machine env $(USER) | \
   tail -1 | sed 's,^# ,,' | pbcopy
 
 # Show network connection information for running containers
