@@ -1,6 +1,8 @@
 # Configuration
 export
 SHELL := /bin/bash
+ip := 0.0.0.0
+command := default
 
 # Recipes
 
@@ -18,7 +20,7 @@ rebuild $(image):
 	@ \
 nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
 set -x ; \
-command=$@ docker-compose build --force-rm $${nocache} 
+docker-compose build --force-rm $${nocache} 
 
 # Clean up everything including all local images
 .PHONY: distclean
@@ -35,7 +37,7 @@ clean: clean-containers clean-images clean-files
 
 clean-containers:
 	@echo "...Cleaning Containers..." ; set -x ; \
-command=$@ docker-compose rm -f -v ; \
+docker-compose rm -f -v ; \
 containers=`docker ps -a -q --filter='status=exited'` ; \
 for container in $${containers}; do docker rm $${container}; done
 
@@ -49,11 +51,11 @@ clean-files:
 find volumes/ \
 -type d -name export -prune -o \
 -type f -exec rm -f {} \; ; \
-find volumes/ -type d -empty -delete
+find volumes/ -mindepth 1 -type d -empty -delete
 
 pull:
 	@echo "...Pulling images..." ; \
-command=$@ docker-compose pull ; \
+docker-compose pull ; \
 images=`find . -name Dockerfile -exec grep ^FROM {} \; | awk '{print $$2}'` ; \
 for i in $${images}; do \
   docker pull $${i} ; \
@@ -62,8 +64,6 @@ done
 release:
 	@echo "...Pushing new release..." ; set -ex ; \
 version=`cat VERSION` ; \
-echo README.md | sed '1s/.*un[-]?released.*/# $${version}/' ; \
-echo CHANGELOG.md | sed '1s/.*un[-]?released.*/# $${version}/' ; \
 git checkout master ; git tag $${version} ; git push origin $${version} ; \
 git checkout latest ; git merge master ; git push origin latest ; \
 git checkout master ; 
@@ -73,19 +73,21 @@ git checkout master ;
 # stopped container commands
 .PHONY: start install restore
 start install restore:
-	command=$@ docker-compose up -d $(service)
+	@ set -x ; \
+export ip=`docker-machine ip $${USER} 2>/dev/null` ; \
+export command=$@ ; \
+docker-compose up -d $${service}
 
 # running container commands
 .PHONY: backup configure
 backup configure:
 	@ set -x ; \
-command=$(@) ; \
 container=`docker-compose ps -q $${app} 2>/dev/null` ; \
 docker exec -it $${container} /app $${command}
 
 .PHONY: stop
 stop:
-	command=$@ docker-compose stop $(service)
+	docker-compose stop $(service)
 
 .PHONY: restart
 restart: stop start
@@ -140,7 +142,7 @@ machine-stop:
 .PHONY: env
 env:
 	@- docker-machine env $(USER) ; \
--docker-machine env $(USER) | \
+  docker-machine env $(USER) | \
   tail -1 | sed 's,^# ,,' | pbcopy
 
 # Show network connection information for running containers
@@ -148,7 +150,7 @@ env:
 net:
 	@echo "Network Configuration:" ; \
 containers=`docker ps -q 2>/dev/null` ; \
-ip=`docker-machine ip $(USER) 2>/dev/null` ; \
+ip=`docker-machine ip $${USER} 2>/dev/null` ; \
 ports=`for container in $${containers}; do \
   docker inspect \
   --format '{{ .Config.ExposedPorts }}' $${container} | \
