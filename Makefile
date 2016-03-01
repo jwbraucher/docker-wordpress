@@ -49,9 +49,13 @@ for i in $${images}; do docker rmi $${i}; done
 clean-files:
 	@echo "...Cleaning Files..." ; set -x ;\
 find volumes/ \
--type d -name export -prune -o \
--type f -exec rm -f {} \; ; \
-find volumes/ -mindepth 1 -type d -empty -delete
+-mindepth 1 -maxdepth 1 \
+-type d -not -name export \
+-exec find {} -type f -delete \; ; \
+find volumes/ \
+-mindepth 1 -maxdepth 1 \
+-type d -not -name export \
+-exec find {} -type d -mindepth 1 -empty -delete \;
 
 pull:
 	@echo "...Pulling images..." ; \

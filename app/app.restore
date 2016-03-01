@@ -2,3 +2,21 @@
 # vim: set filetype=sh :
 
 # This script restores the application from a backup archive file
+
+# Erase all files and directories in the app home
+find ${app_home} -type f -exec rm -f {} \;
+find ${app_home} -mindepth 1 -type d -empty -delete
+
+# Purge all tables from the database
+mysql="mysql -u ${db_user} -p${db_pass} -h ${db_host} ${db_name}"
+tables=`${mysql} < 'show tables' | awk '{print $1}'`:
+for table in ${tables}; do
+    ${mysql} < "drop table ${table};"
+done
+
+# Unpack the files from the backup
+unzip ${restore} -d ${app_home}
+
+# Restore the database
+${mysql} < "${app_home}/database-app.sql"
+

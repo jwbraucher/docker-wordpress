@@ -1,3 +1,14 @@
+## braucher/app 1.4
+
+### Features
+- Added restore process
+- Added latest symlink to backup process
+
+### Bugfixes
+- Fixed Makefile environment variable issue
+- "make clean" now removes sub-directories named 'export'
+  other than 'volumes/export'
+
 ## braucher/app 1.3.1
 
 ### Bugfixes
