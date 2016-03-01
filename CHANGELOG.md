@@ -1,3 +1,8 @@
+## braucher/app 1.4.1
+
+### Bugfixes
+- Fixed backup/restore vars
+
 ## braucher/app 1.4
 
 ### Features
