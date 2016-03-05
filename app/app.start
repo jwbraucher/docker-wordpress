@@ -6,4 +6,5 @@
 source /app.configure
 
 cd ${app_home}
-sudo -u ${app_user} /bin/bash -l
+sudo -u ${app_user} echo "App user is ${app_user}."
+nc -l 80

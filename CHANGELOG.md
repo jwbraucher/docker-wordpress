@@ -1,3 +1,9 @@
+## braucher/app 1.4.2
+
+### Bugfixes
+- Fixed Dockerfile to deploy fix-uids
+- Fixed app.start so that container keeps running
+
 ## braucher/app 1.4.1
 
 ### Bugfixes
