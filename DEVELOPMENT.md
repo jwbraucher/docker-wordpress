@@ -34,10 +34,10 @@ Mac users can 'paste' after running this command.
 ```make volumes```
 
 ## Build Commands
-Commands to build images from Dockerfiles and source.
+Commands to build images from Dockerfiles and related source code.
 
 #### Build all images :
-```make```
+```make ```
 
 #### Rebuild the 'app' image :
 ```make rebuild service=app```
