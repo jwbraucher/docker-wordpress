@@ -21,4 +21,3 @@ cd \${backup_dir}
 ln -sf \${backup_file} \${latest}
 
 END_OF_SUDO
-END_OF_SUDO
