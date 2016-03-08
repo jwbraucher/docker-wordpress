@@ -10,6 +10,7 @@ wordpress:
     APP_HOME: '/var/www/app'
     APP_VERSION: 'latest'
     APP_LOCALE: 'en_US'
+    APP_CURRENCY: 'USD'
     APP_TIMEZONE: 'MST7MDT'
     APP_TITLE: "${app}"
     APP_ADMIN_USER: 'admin'

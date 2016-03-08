@@ -3,12 +3,22 @@
 
 # This script backs up the application to an archive file
 
-echo Backing up Wordpress
+echo Running backup...
 sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
 cd "${app_home}"
+
+# Variables
+backup_dir=\$(dirname ${backup})
+backup_file=\$(basename ${backup})
+latest=\$(echo \${backup_file} | sed 's,[0-9][0-9]*\.${backup_filetype},latest.${backup_filetype},')
 
 wp backupwordpress backup
 find wp-content/ -name backup.zip \
     -exec mv {} ${backup} \;
 
+# Create a latest symlink
+cd \${backup_dir}
+ln -sf \${backup_file} \${latest}
+
+END_OF_SUDO
 END_OF_SUDO

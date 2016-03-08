@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # downstream project installation example
 sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
 cd "${app_home}"
