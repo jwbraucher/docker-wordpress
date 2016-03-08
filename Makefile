@@ -49,9 +49,13 @@ for i in $${images}; do docker rmi $${i}; done
 clean-files:
 	@echo "...Cleaning Files..." ; set -x ;\
 find volumes/ \
--type d -name export -prune -o \
--type f -exec rm -f {} \; ; \
-find volumes/ -mindepth 1 -type d -empty -delete
+-mindepth 1 -maxdepth 1 \
+-type d -not -name export \
+-exec find {} -type f -delete \; ; \
+find volumes/ \
+-mindepth 1 -maxdepth 1 \
+-type d -not -name export \
+-exec find {} -type d -mindepth 1 -empty -delete \;
 
 pull:
 	@echo "...Pulling images..." ; \
@@ -82,6 +86,7 @@ docker-compose up -d $${service}
 .PHONY: backup configure
 backup configure:
 	@ set -x ; \
+export command=$@ ; \
 container=`docker-compose ps -q $${app} 2>/dev/null` ; \
 docker exec -it $${container} /app $${command}
 
@@ -123,7 +128,7 @@ export theservice="$${app}" ; \
 if [ ! -z "$${service}" ]; then \
   theservice=$${service} ; \
 fi ; \
-command=$@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
+docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 
 ### Docker Machine commands
 
