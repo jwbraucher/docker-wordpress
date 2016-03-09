@@ -5,7 +5,8 @@ MAINTAINER Jeff Braucher <jeff@braucher.net>
 
 # Install Wordpress
 RUN apt-get update && \
-  apt-get install -y --force-yes wordpress postfix
+  apt-get install -y --force-yes \
+  wordpress postfix unzip
 
 # Install wp-cli
 RUN composer create-project wp-cli/wp-cli /opt/wp-cli --no-dev

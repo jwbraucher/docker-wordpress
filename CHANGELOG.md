@@ -1,3 +1,9 @@
+# braucher/wordpress unrelease
+
+## Features
+* Added unzip to base image
+* Customized restore process for backupwordpress
+
 # braucher/wordpress 1.5.0
 
 ## Features
