@@ -18,5 +18,5 @@ done
 unzip ${restore} -d ${app_home}
 
 # Restore the database
-${mysql} < "${app_home}/database-app.sql"
+${mysql} < "${app_home}/database-wordpress.sql"
 

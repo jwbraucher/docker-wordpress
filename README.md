@@ -14,6 +14,7 @@ By default, ```/app start``` is the entrypoint and command,
 the daemon listens on port 9000, and files are served from /var/www/app.
 Run ```/app install``` to install Wordpress.
 Run ```/app backup``` to backup the Wordpress installation
+Run ```/app restore``` to restore the Wordpress installation
 
 See the
 [docker-compose.yml from the sample-project branch](https://github.com/jwbraucher/docker-wordpress/tree/sample-project/docker-compose.yml)
