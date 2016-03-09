@@ -1,4 +1,4 @@
-# braucher/wordpress unrelease
+# braucher/wordpress 1.6.0
 
 ## Features
 * Added unzip to base image
