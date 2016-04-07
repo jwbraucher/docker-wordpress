@@ -10,3 +10,4 @@
   - disable postfix
   - disable cron
   - add php debug
+- run project in it's own docker machine
