@@ -5,6 +5,12 @@
 
 source /app.configure
 
+# Install and start a fastcgi backend
+apt-get install -y php5-fpm
+service php5-fpm stop
+sed -i 's/^listen =.*/listen = 9000/' /etc/php5/fpm/pool.d/www.conf
 cd ${app_home}
-sudo -u ${app_user} echo "App user is ${app_user}."
-nc -l 80
+/usr/sbin/php5-fpm \
+    --nodaemonize \
+    --fpm-config /etc/php5/fpm/php-fpm.conf
+

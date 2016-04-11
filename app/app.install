@@ -8,6 +8,8 @@ echo Installing
 sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
 cd "${app_home}"
 
+echo '<?php phpinfo(); ?>' > index.php
+
 END_OF_SUDO
 
 # Run project-specific installation commands

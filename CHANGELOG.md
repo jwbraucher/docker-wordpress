@@ -1,3 +1,19 @@
+## braucher/app 2.0.0
+
+### Major Changes
+- Machine name now matches app name. This will break projects 
+  with existing machines unless "machine=<USERNAME" is specified
+  on the command line.
+- The default Makefile target is now "help" instead of "build". To build
+  you must now issue "make build" instead of just "make".
+
+### Features
+- Added "help" / "list-commands" to Makefile
+- Made machine name unique to each project
+
+### Bugfixes
+- Fixed example app
+
 ## braucher/app 1.4.2
 
 ### Bugfixes

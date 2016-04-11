@@ -5,9 +5,11 @@
   - preserve during make, make rebuild
 - check on `make start-cli`
 - launch cron
-- add mysql back to sample-project
 - add "dev" mode to:
   - disable postfix
   - disable cron
   - add php debug
-- run project in it's own docker machine
+- add proper usage message to Makefile
+- add instructions about when to use app.install vs. Dockerfile
+- add example puppet manifest?
+- add ability to copy images between docker machines

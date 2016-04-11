@@ -3,20 +3,30 @@ export
 SHELL := /bin/bash
 ip := 0.0.0.0
 command := default
+this_file := $(lastword $(MAKEFILE_LIST))
 
-# Recipes
+### Generic Makefile config
 
-# Local Project Makefile
+# Local Project Makefile ( should define app variable )
 include Makefile.local
+machine := ${app}
+
+# List available commands
+# (http://stackoverflow.com/questions/4219255/how-do-you-get-the-list-of-targets-in-a-makefile)
+.PHONY: help list-commands
+help list-commands:
+	@echo "The following commands are available:";
+	@$(MAKE) -pRrq -f $(this_file) : 2>/dev/null | \
+awk -v RS= -F: '/^# File/,/^# Finished Make data base/ \
+    {if ($$1 !~ "^[#.]") {print $$1}}' | \
+    sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
 
 ### Build Commands
 
-# Build the images (default behavior)
+# Build the images
 # if "rebuild" target is added, build images with --no-cache
-image := $(shell find * -name Dockerfile -exec dirname {} \;)
-default: $(image)
-.PHONY: $(image)
-rebuild $(image):
+.PHONY: build rebuild
+build rebuild:
 	@ \
 nocache=`echo $@ | awk '/rebuild/ {printf "--no-cache"}'` ; \
 set -x ; \
@@ -78,7 +88,7 @@ git checkout master ;
 .PHONY: start install restore
 start install restore:
 	@ set -x ; \
-export ip=`docker-machine ip $${USER} 2>/dev/null` ; \
+export ip=`docker-machine ip $${machine} 2>/dev/null` ; \
 export command=$@ ; \
 docker-compose up -d $${service}
 
@@ -136,18 +146,22 @@ docker-compose run --rm --entrypoint /bin/bash $${theservice} -o vi
 .PHONY: machine
 machine:
 	@- set -x ; \
-docker-machine create --driver virtualbox $(USER) ; \
-docker-machine start $(USER)
+docker-machine create --driver virtualbox --virtualbox-memory 8096 $(machine) ; \
+docker-machine start $(machine)
 
-.PHONY: stop-machine
+.PHONY: machine-stop
 machine-stop:
-	docker-machine stop $(USER)
+	docker-machine stop $(machine)
+
+.PHONY: machine-clean
+machine-clean:
+	docker-machine rm -y $(machine)
 
 # Show environment command, and add to clipboard to setup local environment
 .PHONY: env
 env:
-	@- docker-machine env $(USER) ; \
-  docker-machine env $(USER) | \
+	@- docker-machine env $(machine) ; \
+  docker-machine env $(machine) | \
   tail -1 | sed 's,^# ,,' | pbcopy
 
 # Show network connection information for running containers
@@ -155,7 +169,7 @@ env:
 net:
 	@echo "Network Configuration:" ; \
 containers=`docker ps -q 2>/dev/null` ; \
-ip=`docker-machine ip $${USER} 2>/dev/null` ; \
+ip=`docker-machine ip $${machine} 2>/dev/null` ; \
 ports=`for container in $${containers}; do \
   docker inspect \
   --format '{{ .Config.ExposedPorts }}' $${container} | \
