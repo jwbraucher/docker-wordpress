@@ -1,3 +1,8 @@
+## braucher/app UNRELEASED
+
+### Bugfixes
+- Fixed app.restore
+
 ## braucher/app 2.0.0
 
 ### Major Changes

@@ -3,15 +3,21 @@
 
 # This script restores the application from a backup archive file
 
+# Preconfigure to set permissions on volume
+source /app.configure
+
+echo Restoring...
+sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
+
 # Erase all files and directories in the app home
 find ${app_home} -type f -exec rm -f {} \;
 find ${app_home} -mindepth 1 -type d -empty -delete
 
 # Purge all tables from the database
 mysql="mysql -u ${db_user} -p${db_pass} -h ${db_host} ${db_name}"
-tables=`${mysql} < 'show tables' | awk '{print $1}'`:
-for table in ${tables}; do
-    ${mysql} < "drop table ${table};"
+tables=`echo 'show tables' | \${mysql} | awk '{print $1}' | tail -n +2`;
+for table in \${tables}; do
+    echo "drop table \${table};" | \${mysql}
 done
 
 # Unpack the files from the backup
@@ -20,3 +26,4 @@ unzip ${restore} -d ${app_home}
 # Restore the database
 ${mysql} < "${app_home}/database-app.sql"
 
+END_OF_SUDO
