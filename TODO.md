@@ -15,3 +15,4 @@
 - add ability to copy images between docker machines
 - fix DEVELOPMENT instructions (they still reflect version 1.x)
 - push master on release
+- merge in corrected app.restore from braucher/drupal
