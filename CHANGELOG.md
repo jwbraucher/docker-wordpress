@@ -1,3 +1,8 @@
+# braucher/wordpress 2.1.0
+
+## Features
+* Merged in braucher/app-2.1.1 (see upstream for details)
+
 # braucher/wordpress 2.0.0
 
 ## Features
