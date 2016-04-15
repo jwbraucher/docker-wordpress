@@ -1,3 +1,8 @@
+## braucher/app 2.2.1
+
+### Bugfixes
+- Forgot to set ${app} variable
+
 ## braucher/app 2.2.0
 
 ### Features
