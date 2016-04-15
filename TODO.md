@@ -13,5 +13,6 @@
 - add instructions about when to use app.install vs. Dockerfile
 - add example puppet manifest?
 - add ability to copy images between docker machines
+- add app name to list of environment variables
 - make app.backup and app.restore use app-specific names for backup files
 - fix mysql and app_home purging in app.restore
