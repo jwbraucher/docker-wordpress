@@ -14,3 +14,4 @@
 - add example puppet manifest?
 - add ability to copy images between docker machines
 - make app.backup and app.restore use app-specific names for backup files
+- fix mysql and app_home purging in app.restore
