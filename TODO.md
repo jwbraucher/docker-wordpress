@@ -13,3 +13,4 @@
 - add instructions about when to use app.install vs. Dockerfile
 - add example puppet manifest?
 - add ability to copy images between docker machines
+- make app.backup and app.restore use app-specific names for backup files
