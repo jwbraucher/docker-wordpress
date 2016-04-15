@@ -2,7 +2,8 @@
 sudo -u "${app_user}" /bin/bash -ex << END_OF_SUDO
 cd "${app_home}"
 
-# wp theme install [NEW THEME]
-# wp theme install [NEW THEME] --activate
+# Local wordpress install
+wp theme install zerif-lite
+wp theme install responsiveboat --activate
 
 END_OF_SUDO
