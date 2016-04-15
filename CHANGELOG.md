@@ -1,3 +1,12 @@
+## braucher/app 2.2.0
+
+### Features
+- Added ${app} variable to env
+- Changed backup/restore file names to include app name
+
+### Bugfixes
+- Fixed app.restore purging processs
+
 ## braucher/app 2.1.0
 
 ### Features

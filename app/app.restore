@@ -2,28 +2,32 @@
 # vim: set filetype=sh :
 
 # This script restores the application from a backup archive file
+echo Restoring...
 
 # Preconfigure to set permissions on volume
+# and wait for database
 source /app.configure
-
-echo Restoring...
-sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
 
 # Erase all files and directories in the app home
 find ${app_home} -type f -exec rm -f {} \;
 find ${app_home} -mindepth 1 -type d -empty -delete
 
-# Purge all tables from the database
-mysql="mysql -u ${db_user} -p${db_pass} -h ${db_host} ${db_name}"
-tables=`echo 'show tables' | \${mysql} | awk '{print $1}' | tail -n +2`;
-for table in \${tables}; do
-    echo "drop table \${table};" | \${mysql}
-done
+# Run the following commands as the app user
+sudo -u "${app_user}" /bin/bash -x << END_OF_SUDO
 
-# Unpack the files from the backup
-unzip ${restore} -d ${app_home}
-
-# Restore the database
-${mysql} < "${app_home}/database-app.sql"
+    # Restore files into the app home
+    unzip -q ${restore} -d ${app_home}
 
 END_OF_SUDO
+
+# Purge all tables from the database
+mysql="mysql -u ${db_user} -p${db_pass} -h ${db_host} ${db_name}"
+tables=`echo 'show tables' | ${mysql} | awk '{print $1}' | tail -n +2`;
+for table in ${tables}; do
+    echo "drop table ${table};" | ${mysql} ;
+done
+
+# Restore the database
+${mysql} < "${app_home}/database-${app}.sql"
+
+echo Restore completed.
