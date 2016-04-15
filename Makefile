@@ -80,7 +80,7 @@ release:
 version=`cat VERSION` ; \
 git checkout master ; git tag $${version} ; git push origin $${version} ; \
 git checkout latest ; git merge master ; git push origin latest ; \
-git checkout master ; 
+git checkout master ; git push origin master ;
 
 ### Container Commands
 

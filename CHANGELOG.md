@@ -1,4 +1,8 @@
-## braucher/app UNRELEASED
+## braucher/app 2.1.0
+
+### Features
+- Made "make release" push origin master because this command
+  is often run right after a merge.
 
 ### Bugfixes
 - Fixed app.restore
