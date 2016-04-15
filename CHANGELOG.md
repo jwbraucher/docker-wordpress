@@ -6,6 +6,7 @@
 
 ### Bugfixes
 - Fixed app.restore
+- Improved instructions in DEVELOPMENT.md
 
 ## braucher/app 2.0.0
 
