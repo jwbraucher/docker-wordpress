@@ -28,6 +28,7 @@ wordpress-db:
   image: 'mysql:5.6'
   volumes:
     - '/var/lib/mysql'
+    - './volumes/export:/export'
   environment:
     MYSQL_ROOT_PASSWORD: "root4${app}"
     MYSQL_DATABASE: "${app}"
